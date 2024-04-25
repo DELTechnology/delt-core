@@ -1,4 +1,4 @@
-simlation.fastq
+simulation.fastq
 simulation-output/
 7	30	C	./const1.txt
 37	61	C	./const2.txt
