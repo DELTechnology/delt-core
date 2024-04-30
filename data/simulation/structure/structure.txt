@@ -1,8 +1,0 @@
-Component	Location
-S1	0
-C1	6
-B1	30
-C2	36
-B2	61
-C3	68
-S2	80
