@@ -1,0 +1,9 @@
+simlation.fastq
+simulation-output/
+1	6	S	./p1.txt
+7	30	C	./c1.txt
+31	36	B	./b1.txt
+37	61	C	./c2.txt
+62	68	B	./b2.txt
+69	80	C	./c3.txt
+81	89	S	./p2.txt
