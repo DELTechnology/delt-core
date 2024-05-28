@@ -1,0 +1,8 @@
+read-no-error--1	0	0	3		AAA	GTCAAA	1		~~~	~~~~~~	
+read-SNP-0--1	1	0	3		TAA	GTCAAA	1		~~~	~~~~~~	
+read-SNP-1--1	2	0	1		A	TAGTCAAA	1		~	~~~~~~~~	
+read-SNP-2--1	1	0	2		AA	TGTCAAA	1		~~	~~~~~~~	
+read-indel-0--1	1	0	4		TAAA	GTCAAA	1		~~~~	~~~~~~	
+read-indel-1--1	2	0	5		ATAAA	GTCAAA	1		~~~~~	~~~~~~	
+read-indel-2--1	1	0	2		AA	TAGTCAAA	1		~~	~~~~~~~~	
+read-indel-3--1	0	0	3		AAA	TGTCAAA	1		~~~	~~~~~~~	
