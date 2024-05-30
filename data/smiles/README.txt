@@ -2,13 +2,16 @@ HOW TO FILL IN EXCEL FILE
 
 
 Important remarks:
-- If your experiment includes the hybridization of two libraries, you have to fill in two separate files (i.e., one file per library).
+- If your experiment includes the hybridization of two libraries, you have to fill in two separate Excel files (i.e., one file per library).
 - Do only edit the sheets "step1", ..., "stepN", and "const".
 - Delete the sheets you don't need (e.g., delete "step2" if your experiment includes only one reaction step).
 - The sheets "scaffolds" and "smarts" can be ignored.
 - Do only use the options available (see below).
 - In case of a two step reaction (e.g., SR followed by ABF), write all reaction types separated by a comma (see example usage of step 1).
-- If no reaction takes place, leave the corresponding cell empty (see example usage of step 2).
+- If no reaction takes place or no scaffold is used, leave the corresponding cell empty (see example usage of step 2).
+- Only reactions between two building blocks or between a building block and a scaffold are considered (i.e., reactions between a building block and a DNA strand should be neglected).
+- All sequences provided should be written in the 5'-to-3' direction.
+- In case of a hybridization, the constant regions provided must not overlap (see example usage below).
 
 
 
@@ -79,36 +82,46 @@ ID	SMILES		Codon	ReactionType
 
 
 #########
-# const #
+# CONST #
 #########
 
-ID
-Description:	Number of building block (should match the number of reaction steps)
-Options:	1, ..., n
-
 Sequence
-Description:	Sequence of the constant regions surrounding the codon of the corresponding building block
+Description:	Sequence of the constant regions surrounding the codons of the building blocks
 Options:	[ATCG]
 
 Reverse
-Description:	Whether the final product contains the reverse sequence of the constant region provided
+Description:	Whether the final DNA sequence contains the reverse sequence of the constant region provided
 Option:		0, 1
 
 Complement
-Description:	Whether the final product contains the complement sequence of the constant region provided
+Description:	Whether the final DNA sequence contains the complement sequence of the constant region provided
 Options:	0, 1
 
-Special
-Description:	not yet available
-Options:	0
+
+Example usage (one library):
+
+Final DNA sequence:	5' GAC{codon}GCT{codon}GCT 3'
+
+Sequence			Reverse	Complement
+--------------------------------------------------
+GAC{codon}GCT{codon}GCT		0	0
 
 
-Example usage:
+Example usage (hybridization of two libraries):
 
-ID	Sequence				Reverse	Complement	Special
--------------------------------------------------------------------------------
-1	CTGTGTGCTG{codon}CGAGTCCCATGGCGC	0	1		0
-2	CGGATCGACG{codon}GCGTCAGGCAGC		1	0		0
+5' GTA{codon}GGA              3'
+   |||       |||
+3' CAT{xxxxx}CCTGAA{codon}TGC 5'
 
+Final DNA sequence:	5' GTA{codon}GGACTT{codon}ACG 3'
 
+Excel file #1:
+Sequence				Reverse	Complement
+----------------------------------------------------------
+GTA{codon}GGA				0	0
+
+Excel file #2:
+Sequence				Reverse	Complement
+----------------------------------------------------------
+CGT{codon}AAG				1	1
 
