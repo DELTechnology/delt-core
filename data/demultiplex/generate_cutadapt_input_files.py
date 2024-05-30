@@ -3,7 +3,7 @@ from pathlib import Path
 from pydantic import BaseModel, computed_field
 
 path_to_struct = Path(
-    '/Users/adrianomartinelli/polybox - Adriano Martinelli (adriano.martinelli@pharma.ethz.ch)@polybox.ethz.ch/decl-data/raw-files-downsampled/structureNF2.txt')
+    '/Users/adrianomartinelli/polybox - Adriano Martinelli (adriano.martinelli@pharma.ethz.ch)@polybox.ethz.ch/decl-data/raw-files-downsampled/structure.txt')
 path_to_dir = path_to_struct.parent
 path_save = path_to_dir / 'cutadapt_input_files'
 path_save.mkdir(parents=True, exist_ok=True)
@@ -58,23 +58,27 @@ for i, region in enumerate(regions):
 # %%
 import textwrap
 import os
+import stat
+import multiprocessing
+
+path_demultiplex_exec = path_save / 'demultiplex.sh'
 
 # note: delete existing demultiplex.sh
-(path_save / 'demultiplex.sh').unlink(missing_ok=True)
+path_demultiplex_exec.unlink(missing_ok=True)
 
 path_tmp_input_fastq = path_output_dir / 'input.fastq.gz'
+path_output_fastq = path_output_dir / 'out.fastq.gz'
 with open(path_save / 'demultiplex.sh', 'w') as f:
     f.write('#!/bin/bash\n')
     f.write('# make sure you installed pigz with `brew install pigz` to enable parallel processing\n\n')
     f.write(f'mkdir "{path_output_dir.relative_to(path_to_dir)}"\n')
     # we symlink the fastq file we want to demultiplex
-    f.write(f'ln -sf "{os.path.relpath(path_input_fastq, start=path_output_dir)}" "{path_tmp_input_fastq}"\n')
+    f.write(f'ln -sf "{os.path.relpath(path_input_fastq, start=path_output_dir)}" "{path_output_fastq.relative_to(path_to_dir)}"\n')
 
-import multiprocessing
 n_cores = multiprocessing.cpu_count()
 
-error_rate = 0
-rename_command = '{id}-{comment}-{adapter_name}'
+error_rate = 1
+rename_command = '{id} {comment}?{adapter_name}'
 
 use_relative_paths = True
 for region in regions:
@@ -90,32 +94,29 @@ for region in regions:
         # path_output_info = path_output_info.absolute().relative_to(path_to_dir)
         path_input_fastq = path_input_fastq.absolute().relative_to(path_to_dir)
 
-    with open(path_save / 'demultiplex.sh', 'a') as f:
+    report_file_name = f'{region.region_id}.cutadapt.json'
+    stdout_file_name = f'{region.region_id}.cutadapt.log'
+    info_file_name = f'{region.region_id}.cutadapt.info.gz'
+
+    with open(path_demultiplex_exec, 'a') as f:
         cmd = f"""
+            mv {path_output_fastq} {path_input_fastq}
+            
             cutadapt "{path_input_fastq}" \\
             -o "{path_output_fastq}" \\
             -e {error_rate} \\
             -g "^file:{path_adapters}" \\
             --rename '{rename_command}' \\
             --discard-untrimmed \\
-            --cores={n_cores}
+            --json={report_file_name} \\
+            --info-file={info_file_name} \\
+            --cores={n_cores} 2>&1 | tee "{stdout_file_name}"
             
-            mv {path_output_fastq} {path_input_fastq}
             """
         cmd = textwrap.dedent(cmd)
         f.write(cmd)
 
+with open(path_demultiplex_exec, 'a') as f:
+    f.write(f'zgrep "@" "{path_output_fastq}" | gzip -c > "reads_with_adapters.gz"')
 
-# cutadapt -e 0 \
-# -g "^file:cutadapt_input_files/0.S.fastq" \
-# -o "Evaluation_2301_704504_NF2-AG_yOST/out.fastq.gz" "o306001_1-sample1_704_504_OST1_S55_R1_001.fastq.gz" \
-# --rename '{id}-{comment}-{adapter_name}' \
-# --discard-untrimmed \
-# --cores=5
-#
-# cutadapt -e 0 \
-# -g "^file:cutadapt_input_files/0.S.fastq" \
-# -o "Evaluation_2301_704504_NF2-AG_yOST/out.fastq.gz" "../raw-files/o306001_1-sample1_704_504_OST1_S55_R1_001.fastq.gz" \
-# --rename '{id}-{comment}-{adapter_name}' \
-# --discard-untrimmed \
-# --cores=5
+os.chmod(path_demultiplex_exec, os.stat(path_demultiplex_exec).st_mode | stat.S_IEXEC)
