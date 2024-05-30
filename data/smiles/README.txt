@@ -3,9 +3,8 @@ HOW TO FILL IN EXCEL FILE
 
 Important remarks:
 - If your experiment includes the hybridization of two libraries, you have to fill in two separate Excel files (i.e., one file per library).
-- Do only edit the sheets "step1", ..., "stepN", and "const".
+- Do only edit the sheets "step1", ..., "stepN", "scaffolds", and "const" (i.e., the sheet "smarts" can be ignored).
 - Delete the sheets you don't need (e.g., delete "step2" if your experiment includes only one reaction step).
-- The sheets "scaffolds" and "smarts" can be ignored.
 - Do only use the options available (see below).
 - In case of a two step reaction (e.g., SR followed by ABF), write all reaction types separated by a comma (see example usage of step 1).
 - If no reaction takes place or no scaffold is used, leave the corresponding cell empty (see example usage of step 2).
@@ -78,6 +77,29 @@ ID	SMILES		Codon	ReactionType
 1	OB(O)c1occc1	TGCCTTC	Suz
 2	C#CC1CCCCC1	TGGTAGA	Son
 3	[I]		TGGCAAT
+
+
+
+#############
+# SCAFFOLDS #
+#############
+
+ScaffoldID
+Description:	ID of the corresponding scaffold
+Options:	1, ..., n
+
+SMILES
+Description:	SMILES of scaffold n
+Options:	Valid SMILES structure
+
+
+Example usage:
+
+ScaffoldID	SMILES
+------------------------------------------------
+1		Ic1ccc(CC(N=[N+]=[N-])C(O)=O)cc1
+2		[N-]=[N+]=NC(C(O)=O)Cc1cc(I)ccc1
+3		[N-]=[N+]=NC(C(O)=O)Cc1c(I)cccc1
 
 
 

@@ -10,7 +10,7 @@
         "Sequences": [
             "GGAGCTTCTGAATTCTGTGTGCTG"
         ],
-        "Maximum Error Rate": 0.1,
+        "Maximum Error Rate": 0.2,
         "Minimum Overlap": 3
     },
     "B1": {
@@ -24,7 +24,7 @@
         "Sequences": [
             "CGAGTCCCATGGCGCCGGATCGACG"
         ],
-        "Maximum Error Rate": 0.1,
+        "Maximum Error Rate": 0.2,
         "Minimum Overlap": 3
     },
     "B2": {
@@ -38,7 +38,7 @@
         "Sequences": [
             "GCGTCAGGCAGC"
         ],
-        "Maximum Error Rate": 0.1,
+        "Maximum Error Rate": 0.2,
         "Minimum Overlap": 3
     },
     "S2": {
