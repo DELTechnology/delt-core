@@ -2,8 +2,7 @@ from pathlib import Path
 
 from pydantic import BaseModel, computed_field
 
-path_to_struct = Path(
-    '/Users/adrianomartinelli/polybox - Adriano Martinelli (adriano.martinelli@pharma.ethz.ch)@polybox.ethz.ch/decl-data/raw-files-downsampled/structure.txt')
+path_to_struct = Path('~/data/delt/run-issue-2.B/structureNF2.txt').expanduser().resolve()
 path_to_dir = path_to_struct.parent
 path_save = path_to_dir / 'cutadapt_input_files'
 path_save.mkdir(parents=True, exist_ok=True)
@@ -94,9 +93,9 @@ for region in regions:
         # path_output_info = path_output_info.absolute().relative_to(path_to_dir)
         path_input_fastq = path_input_fastq.absolute().relative_to(path_to_dir)
 
-    report_file_name = f'{region.region_id}.cutadapt.json'
-    stdout_file_name = f'{region.region_id}.cutadapt.log'
-    info_file_name = f'{region.region_id}.cutadapt.info.gz'
+    report_file_name = path_output_dir / f'{region.region_id}.cutadapt.json'
+    stdout_file_name = path_output_dir / f'{region.region_id}.cutadapt.log'
+    info_file_name = path_output_dir / f'{region.region_id}.cutadapt.info.gz'
 
     with open(path_demultiplex_exec, 'a') as f:
         cmd = f"""
@@ -108,15 +107,17 @@ for region in regions:
             -g "^file:{path_adapters}" \\
             --rename '{rename_command}' \\
             --discard-untrimmed \\
-            --json={report_file_name} \\
-            --info-file={info_file_name} \\
-            --cores={n_cores} 2>&1 | tee "{stdout_file_name}"
+            --json='{report_file_name}' \\
+            --info-file='{info_file_name}' \\
+            --cores={n_cores} 2>&1 | tee '{stdout_file_name}'
             
             """
         cmd = textwrap.dedent(cmd)
         f.write(cmd)
 
 with open(path_demultiplex_exec, 'a') as f:
-    f.write(f'zgrep "@" "{path_output_fastq}" | gzip -c > "reads_with_adapters.gz"')
+    f.write(f'zgrep "@" "{path_output_fastq}" | gzip -c > "eval/reads_with_adapters.gz"\n')
+    f.write(f'rm {path_output_fastq} {path_input_fastq}')
 
 os.chmod(path_demultiplex_exec, os.stat(path_demultiplex_exec).st_mode | stat.S_IEXEC)
+

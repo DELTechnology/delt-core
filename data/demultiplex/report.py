@@ -2,7 +2,7 @@ import textwrap
 from pathlib import Path
 import json
 
-report_files = Path('/Users/adrianomartinelli/polybox - Adriano Martinelli (adriano.martinelli@pharma.ethz.ch)@polybox.ethz.ch/decl-data/raw-files-downsampled').glob('*.cutadapt.json')
+report_files = Path('eval').glob('*.cutadapt.json')
 reports = {i.name.replace('.cutadapt.json', ''): json.load(i.open('r')) for i in report_files}
 
 pipeline_report = []

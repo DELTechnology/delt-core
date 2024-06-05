@@ -5,9 +5,11 @@ from tqdm import tqdm
 import json
 
 # Path to the gzip file
-gzip_file_path = Path('/Users/adrianomartinelli/polybox - Adriano Martinelli (adriano.martinelli@pharma.ethz.ch)@polybox.ethz.ch/decl-data/raw-files-downsampled/reads_with_adapters.gz')
+gzip_file_path = Path('eval/reads_with_adapters.gz').resolve()
+assert gzip_file_path.exists()
+
 path_to_dir = gzip_file_path.parent
-number_of_reads = json.load(open(sorted(path_to_dir.glob('*.cutadapt.json'))[-1]))['read_counts']['output']
+number_of_reads = json.load(open(sorted((path_to_dir).glob('*.cutadapt.json'))[-1]))['read_counts']['output']
 
 # Open the gzip file
 from collections import defaultdict, Counter
@@ -30,5 +32,5 @@ for selection_id, counts in tqdm(selections.items(), ncols=100):
     df = df.astype(int)
     df.sort_values(['barcode1', 'barcode2'], inplace=True)
 
-    path_counts = path_to_dir / 'Evaluation_2301_704504_NF2-AG_yOST' / f'{selection_id}.tsv'
+    path_counts = path_to_dir / f'{selection_id}.tsv'
     df.to_csv(path_counts, index=False, sep='\t')
