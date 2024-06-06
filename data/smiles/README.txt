@@ -35,8 +35,8 @@ Description:	Codon of building block n
 Option:		[ATCG]
 
 ReactionType
-Description:	Reaction type(s) (amide bond formation, Staudinger reduction, cycloaddition, Suzuki, Sonogashira, dehalogenation)
-Options:	ABF, SR, CuAAC, Suz, Son, DH
+Description:	Reaction type(s) (amide bond formation, cycloaddition, dehalogenation, diazo transfer, intermolecular nucleophilic substitution (type 2), intramolecular nucleophilic substitution (type 2), Sonogashira, Staudinger reduction, Suzuki)
+Options:	ABF, CuAAC, DH, DT, SN2-2, SN2-1, Son, SR, Suz
 
 
 Example usage:
