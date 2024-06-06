@@ -1,9 +1,0 @@
-simulated-read-0	0	0	6		ACACAC	GGAGCTTCTGAATTCTGTGTGCTGGCCTCGCGAGTCCCATGGCGCCGGATCGACGGTCTCACGCGTCAGGCAGCCGCTCGATA	p1.1		~~~~~~	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
-simulated-error-r0	-1	TCACACGGAGCTTCTGAATTCTGTGTGCTGGCCTCGCGAGTCCCATGGCGCCGGATCGACGGTCTCACGCGTCAGGCAGCCGCTCGATA	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-simulated-read-1	0	0	6		ACAGCA	GGAGCTTCTGAATTCTGTGTGCTGTCCGACCGAGTCCCATGGCGCCGGATCGACGGTCGTACGCGTCAGGCAGCAGCATATCG	p1.2		~~~~~~	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
-simulated-error-r2	0	0	6		ACAGCA	TGAGCTTCTGAATTCTGTGTGCTGTCCGACCGAGTCCCATGGCGCCGGATCGACGGTCGTACGCGTCAGGCAGCAGCATATCG	p1.2		~~~~~~	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
-simulated-read-2	0	0	6		ACAGCA	GGAGCTTCTGAATTCTGTGTGCTGTCCGACCGAGTCCCATGGCGCCGGATCGACGGTCTCACGCGTCAGGCAGCAGCATATCG	p1.2		~~~~~~	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
-simulated-error-r3	0	0	6		ACAGCA	GGAGCTTCTGAATTCTGTGTGCTGACCGACCGAGTCCCATGGCGCCGGATCGACGGTCTCACGCGTCAGGCAGCAGCATATCG	p1.2		~~~~~~	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
-simulated-read-3	0	0	6		ACAGCA	GGAGCTTCTGAATTCTGTGTGCTGTCCGACCGAGTCCCATGGCGCCGGATCGACGGTCTCACGCGTCAGGCAGCAGCATATCG	p1.2		~~~~~~	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
-simulated-read-4	0	0	6		ACAGCA	GGAGCTTCTGAATTCTGTGTGCTGGCCTCGCGAGTCCCATGGCGCCGGATCGACGGTCTCACGCGTCAGGCAGCAGCATATCG	p1.2		~~~~~~	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
-simulated-error-r4	0	0	6		ACAGCA	GGAGCTTCTGAATTCTGTGTGCTGGCCTCGAGAGTCCCATGGCGCCGGATCGACGGTCTCACGCGTCAGGCAGCAGCATATCG	p1.2		~~~~~~	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
