@@ -1,7 +1,0 @@
-1	6	S	./sequences/p1.txt
-7	30	C	./sequences/c1.txt
-31	36	B	./sequences/b1.txt
-37	61	C	./sequences/c2.txt
-62	68	B	./sequences/b2.txt
-69	80	C	./sequences/c3.txt
-81	89	S	./sequences/p2.txt
