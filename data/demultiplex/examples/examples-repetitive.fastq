@@ -1,0 +1,12 @@
+@read-AAA-repetition-downstream
+AAABTCAAABTCAAA
++
+~~~~~~~~~~~~~~~
+@read-AAA-repetition-downstream
+BTCAAABTCAAABTC
++
+~~~~~~~~~~~~~~~
+@read-AAA-repetition-downstream-with-consecutive-overlap
+AAABTAAAABTAAAA
++
+~~~~~~~~~~~~~~~
