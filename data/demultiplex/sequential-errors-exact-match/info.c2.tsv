@@ -1,6 +1,0 @@
-simulated-read-0	0	0	25		CGAGTCCCATGGCGCCGGATCGACG	GTCTCACGCGTCAGGCAGCCGCTCGATA	c2.1		~~~~~~~~~~~~~~~~~~~~~~~~~	~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
-simulated-read-1	0	0	25		CGAGTCCCATGGCGCCGGATCGACG	GTCGTACGCGTCAGGCAGCAGCATATCG	c2.1		~~~~~~~~~~~~~~~~~~~~~~~~~	~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
-simulated-read-2	0	0	25		CGAGTCCCATGGCGCCGGATCGACG	GTCTCACGCGTCAGGCAGCAGCATATCG	c2.1		~~~~~~~~~~~~~~~~~~~~~~~~~	~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
-simulated-read-3	0	0	25		CGAGTCCCATGGCGCCGGATCGACG	GTCTCACGCGTCAGGCAGCAGCATATCG	c2.1		~~~~~~~~~~~~~~~~~~~~~~~~~	~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
-simulated-read-4	0	0	25		CGAGTCCCATGGCGCCGGATCGACG	GTCTCACGCGTCAGGCAGCAGCATATCG	c2.1		~~~~~~~~~~~~~~~~~~~~~~~~~	~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
-simulated-error-r4	-1	AGAGTCCCATGGCGCCGGATCGACGGTCTCACGCGTCAGGCAGCAGCATATCG	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

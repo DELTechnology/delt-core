@@ -1,6 +1,0 @@
-read-AAA-repetition-downstream-snp-T0  1	1	0	3		TAA	BTCAAABTCAAA	1		~~~	~~~~~~~~~~~~	
-read-AAA-repetition-downstream-snp-T1  1	1	0	3		ATA	BTCAAABTCAAA	1		~~~	~~~~~~~~~~~~	
-read-AAA-repetition-downstream-snp-T2  1	1	0	2		AA	TBTCAAABTCAAA	1		~~	~~~~~~~~~~~~~	
-read-AAA-repetition-downstream-indel-T0  1	1	0	4		TAAA	BTCAAABTCAAA	1		~~~~	~~~~~~~~~~~~	
-read-AAA-repetition-downstream-indel-T0  1	1	0	3		ATA	ABTCAAABTCAAA	1		~~~	~~~~~~~~~~~~~	
-read-AAA-repetition-downstream-indel-T0  1	1	0	2		AA	TABTCAAABTCAAA	1		~~	~~~~~~~~~~~~~~	

@@ -1,6 +1,0 @@
-{
-  "path_to_struct_file": "/Users/adrianomartinelli/projects/delt/delt-core/data/demultiplex/structure.txt",
-  "path_to_output": "/Users/adrianomartinelli/projects/delt/delt-core/data/demultiplex/simulation.fastq",
-  "number_of_reads": 5,
-  "errors": []
-}
