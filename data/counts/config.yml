@@ -1,0 +1,26 @@
+---
+Selection:
+  SelectionFile: selection.xlsx
+  SelectionID: 1
+Structure:
+  S1:
+    MaxErrorRate: 0.0
+    Indels: 0
+  C1:
+    MaxErrorRate: 0.0
+    Indels: 0
+  B1:
+    MaxErrorRate: 0.0
+    Indels: 0
+  C2:
+    MaxErrorRate: 0.0
+    Indels: 0
+  B2:
+    MaxErrorRate: 0.0
+    Indels: 0
+  C3:
+    MaxErrorRate: 0.0
+    Indels: 0
+  S2:
+    MaxErrorRate: 0.0
+    Indels: 0
