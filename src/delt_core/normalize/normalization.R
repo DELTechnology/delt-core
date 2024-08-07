@@ -95,7 +95,7 @@ coldata$condition = factor(coldata$condition)
 
 dds = DESeqDataSetFromMatrix(cts, coldata, ~ condition)
 
-group_size = 3
+group_size = 1
 filter = rowSums(counts(dds) >= 10) >= group_size
 dds = dds[filter, ]
 dds$condition = relevel(dds$condition, ref = 'control')
