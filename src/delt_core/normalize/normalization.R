@@ -1,5 +1,19 @@
+# https://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html
+
 library('DESeq2')
+library('readxl')
 library('tidyverse')
+
+
+# ARGUMENTS
+args = strsplit(commandArgs(trailingOnly=TRUE), ' ')[[1]]
+
+root = args[1]
+selection_file = args[2]
+data_dir = args[3]
+target_ids = as.numeric(strsplit(args[4], ',')[[1]])
+control_ids = as.numeric(strsplit(args[5], ',')[[1]])
+
 
 # FUNCTIONS
 read_selection = function(file) {
@@ -26,100 +40,52 @@ create_table = function(files) {
 
 
 # MAIN
-path = '/Volumes/data_shared/data/shared/AM_Andy_DataAnalysisQuatsch/Data Campaign AG_21'
-setwd(path)
+setwd(root)
+selections = read_excel(selection_file)
+selection_ids = c(target_ids, control_ids)
+evaluation_files = c()
 
-files = c(
-  'selection_12_.txt', # protein
-  'selection_13_.txt', # protein
-  'selection_14_.txt', # protein
-  'selection_8_.txt',  # control
-  'selection_19_.txt', # control
-  'selection_20_.txt'  # control
-)
+for (condition in selection_ids) {
+  for (id in condition) {
+    selection_dir = file.path(data_dir, paste0('selection-', id))
+    files = list.files(selection_dir)
+    file = files[grepl('\\.txt$', files)]
+    path = file.path(selection_dir, file)
+    evaluation_files = c(evaluation_files, path)
+  }
+}
 
-cts = create_table(files)
+num_targets = length(target_ids)
+num_controls = length(control_ids)
 
+cts = create_table(evaluation_files)
 coldata = data.frame(
-  condition = c(rep('protein', 3), rep('control', 3)),
+  condition = c(rep('protein', num_targets), rep('control', num_controls)),
   row.names = colnames(cts)
 )
 coldata$condition = factor(coldata$condition)
 
 dds = DESeqDataSetFromMatrix(cts, coldata, ~ condition)
 
-group_size = 3
-filter = rowSums(counts(dds) >= 10) >= group_size
+threshold_counts = 10
+group_size = floor((num_targets + num_controls) / 2)
+filter = rowSums(counts(dds) >= threshold_counts) >= group_size
 dds = dds[filter, ]
 dds$condition = relevel(dds$condition, ref = 'control')
 
 dds = DESeq(dds)
 
 res = results(dds, name='condition_protein_vs_control')
-# plotCounts(dds, gene=which.min(res$padj), intgroup="condition")
 resLFC = lfcShrink(dds, coef='condition_protein_vs_control', type='apeglm')
-
 resOrdered = resLFC[order(resLFC$padj), ]
 resOrdered$neglogp = -log10(resOrdered$padj)
 mask = resOrdered$padj < 0.05
 resSign = resOrdered[!is.na(mask) & mask, ]
 
-head(as.data.frame(resSign))
-# write.csv(resSign, file = "stats.csv", row.names = TRUE)
-
-ggplot(resOrdered, aes(x=log2FoldChange, y=neglogp)) +
+p = ggplot(resOrdered, aes(x=log2FoldChange, y=neglogp)) +
   geom_point(alpha=0.5) +
-  labs(
-    x = 'log2 fold change',
-    y = '-log10 p-value'
-  ) +
-  ylim(0, 5) +
-  theme_minimal()
+  labs(x='log2 fold change', y='-log10 p-value')
 
-
-
-# this doesn't work
-
-files = c(
-  'selection_12_.txt', # protein
-  'selection_8_.txt'   # control
-)
-
-cts = create_table(files)
-
-coldata = data.frame(
-  condition = c(rep('protein', 1), rep('control', 1)),
-  row.names = colnames(cts)
-)
-coldata$condition = factor(coldata$condition)
-
-dds = DESeqDataSetFromMatrix(cts, coldata, ~ condition)
-
-group_size = 3
-filter = rowSums(counts(dds) >= 10) >= group_size
-dds = dds[filter, ]
-dds$condition = relevel(dds$condition, ref = 'control')
-
-dds = DESeq(dds)
-
-res = results(dds, name='condition_protein_vs_control')
-# plotCounts(dds, gene=which.min(res$padj), intgroup="condition")
-resLFC = lfcShrink(dds, coef='condition_protein_vs_control', type='apeglm')
-
-resOrdered = resLFC[order(resLFC$padj), ]
-resOrdered$neglogp = -log10(resOrdered$padj)
-mask = resOrdered$padj < 0.05
-resSign = resOrdered[!is.na(mask) & mask, ]
-
-head(as.data.frame(resSign))
-# write.csv(resSign, file = "stats.csv", row.names = TRUE)
-
-ggplot(resOrdered, aes(x=log2FoldChange, y=neglogp)) +
-  geom_point(alpha=0.5) +
-  labs(
-    x = 'log2 fold change',
-    y = '-log10 p-value'
-  ) +
-  ylim(0, 5) +
-  theme_minimal()
+write.csv(resSign, file='stats.csv', row.names=TRUE)
+ggsave('volcano.png', plot=p, width=6, height=4, dpi=300)
 
