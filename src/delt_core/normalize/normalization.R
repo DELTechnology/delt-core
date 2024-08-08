@@ -1,8 +1,8 @@
 # https://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html
 
 library('DESeq2')
+library('ggplot2')
 library('readxl')
-library('tidyverse')
 
 
 # ARGUMENTS
