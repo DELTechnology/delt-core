@@ -11,8 +11,9 @@ args = strsplit(commandArgs(trailingOnly=TRUE), ' ')[[1]]
 root = args[1]
 selection_file = args[2]
 data_dir = args[3]
-target_ids = as.numeric(strsplit(args[4], ',')[[1]])
-control_ids = as.numeric(strsplit(args[5], ',')[[1]])
+output_dir = args[4]
+target_ids = as.numeric(strsplit(args[5], ',')[[1]])
+control_ids = as.numeric(strsplit(args[6], ',')[[1]])
 
 
 # FUNCTIONS
@@ -59,6 +60,11 @@ num_targets = length(target_ids)
 num_controls = length(control_ids)
 
 cts = create_table(evaluation_files)
+threshold_counts = 10
+group_size = floor((num_targets + num_controls) / 2)
+filter = rowSums(cts >= threshold_counts) >= group_size
+cts = cts[filter, ]
+
 coldata = data.frame(
   condition = c(rep('protein', num_targets), rep('control', num_controls)),
   row.names = colnames(cts)
@@ -66,26 +72,34 @@ coldata = data.frame(
 coldata$condition = factor(coldata$condition)
 
 dds = DESeqDataSetFromMatrix(cts, coldata, ~ condition)
-
-threshold_counts = 10
-group_size = floor((num_targets + num_controls) / 2)
-filter = rowSums(counts(dds) >= threshold_counts) >= group_size
-dds = dds[filter, ]
 dds$condition = relevel(dds$condition, ref = 'control')
-
 dds = DESeq(dds)
 
-res = results(dds, name='condition_protein_vs_control')
 resLFC = lfcShrink(dds, coef='condition_protein_vs_control', type='apeglm')
+resLFC$targetMean = rowMeans(cts[, 1:num_targets])
+resLFC$controlMean = rowMeans(cts[, (num_targets+1):ncol(cts)])
+resLFC$enrichFactor = resLFC$targetMean / resLFC$controlMean
+
 resOrdered = resLFC[order(resLFC$padj), ]
-resOrdered$neglogp = -log10(resOrdered$padj)
+resOrdered$negLogp = -log10(resOrdered$padj)
+resOrdered$log2FoldChange = resOrdered$log2FoldChange
 mask = resOrdered$padj < 0.05
 resSign = resOrdered[!is.na(mask) & mask, ]
 
-p = ggplot(resOrdered, aes(x=log2FoldChange, y=neglogp)) +
+p = ggplot(resSign, aes(x=log2FoldChange, y=negLogp)) +
   geom_point(alpha=0.5) +
-  labs(x='log2 fold change', y='-log10 p-value')
+  labs(x='log2 fold change', y='-log10 p-value') +
+  xlim(0, ceiling(max(resSign$log2FoldChange)))
 
-write.csv(resSign, file='stats.csv', row.names=TRUE)
-ggsave('volcano.png', plot=p, width=6, height=4, dpi=300)
+cols = c(
+  'targetMean',
+  'controlMean',
+  'enrichFactor',
+  'log2FoldChange',
+  'padj',
+  'negLogp'
+)
+
+write.csv(resSign[, cols], file=file.path(output_dir, 'stats.csv'), row.names=TRUE)
+ggsave(file.path(output_dir, 'volcano.png'), plot=p, width=15, height=10, dpi=300)
 

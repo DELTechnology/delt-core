@@ -16,10 +16,12 @@ def run(
     root = config['Root']
     selection_file = config['Selection']['SelectionFile']
     data_dir = 'evaluations'
+    output_dir = 'normalization'
     target_ids = ','.join(target.split())
     control_ids = ','.join(control.split())
 
-    args = [f'{root} {selection_file} {data_dir} {target_ids} {control_ids}']
+    args = [f'{root} {selection_file} {data_dir} {output_dir} {target_ids} {control_ids}']
+    Path(output_dir).mkdir(exist_ok=True)
 
     script = 'normalization.R'
     dir = 'delt_core.normalize'
