@@ -46,3 +46,14 @@ def properties(**kwargs):
 def plot(**kwargs):
     cmds.plot(**kwargs)
 
+
+@compute.command()
+@click.argument(
+    'input_file',
+    nargs=1,
+    required=True,
+    type=click.Path(exists=True),
+)
+def tmap(**kwargs):
+    cmds.compute_tmap(**kwargs)
+

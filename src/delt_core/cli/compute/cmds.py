@@ -35,3 +35,12 @@ def plot(
     output_dir.mkdir(parents=True, exist_ok=True)
     c.plot_properties(input_file, output_dir)
 
+
+# def compute_tmap(
+#         input_file: Path,
+# ) -> None:
+#     input_file = Path(input_file)
+#     output_dir = input_file.parent / 'tmap'
+#     output_dir.mkdir(parents=True, exist_ok=True)
+#     c.run_tmap(input_file, output_dir)
+
