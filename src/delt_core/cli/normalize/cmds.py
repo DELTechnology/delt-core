@@ -15,13 +15,15 @@ def run(
     
     root = config['Root']
     selection_file = config['Selection']['SelectionFile']
-    data_dir = 'evaluations'
-    output_dir = 'normalization'
+    experiment = config['Experiment']['Name']
+    data_dir = str(root / 'evaluations')
+    output_dir = root / 'experiments' / experiment / 'normalization'
     target_ids = ','.join(target.split())
     control_ids = ','.join(control.split())
 
+    output_dir.mkdir(parents=True, exist_ok=True)
+    output_dir = str(output_dir)
     args = [f'{root} {selection_file} {data_dir} {output_dir} {target_ids} {control_ids}']
-    Path(output_dir).mkdir(exist_ok=True)
 
     script = 'normalization.R'
     dir = 'delt_core.normalize'
