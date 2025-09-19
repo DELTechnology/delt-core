@@ -66,6 +66,7 @@ assembly:
       reactants:
         - scaffold
         - B0
+      reaction: from:B0
       product: P1
 
     - name: P1_with_B1
@@ -73,3 +74,9 @@ assembly:
         - P1
         - B1
       product: P2
+
+    - name: deprotection_of_P2
+      reactants:
+        - P2
+      reaction: SR
+      product: P3
