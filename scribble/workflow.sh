@@ -21,3 +21,6 @@ delt-cli analyse enrichment \
 --method=edgeR
 
 delt-cli properties run --config_path=/Users/adrianomartinelli/Library/CloudStorage/OneDrive-ETHZurich/oneDrive-documents/data/DECLT-DB/experiments/test-1/config.yaml
+
+delt-cli represent run --config_path=/Users/adrianomartinelli/Library/CloudStorage/OneDrive-ETHZurich/oneDrive-documents/data/DECLT-DB/experiments/test-1/config.yaml \
+--method=morgan
