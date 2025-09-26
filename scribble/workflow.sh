@@ -2,7 +2,7 @@
 # excel_path=Path('/Users/adrianomartinelli/projects/delt/delt-core/templates/NF.xlsx)
 # config_path=Path('/Users/adrianomartinelli/Library/CloudStorage/OneDrive-ETHZurich/oneDrive-documents/data/DECLT-DB/experiments/test-1/config_with_steps.yaml')
 
-delt-cli demultiplex init --excel_path=/Users/adrianomartinelli/projects/delt/delt-core/templates/NF.xlsx
+delt-cli init --excel_path=/Users/adrianomartinelli/projects/delt/delt-core/templates/NF.xlsx
 delt-cli demultiplex run --config_path=/Users/adrianomartinelli/Library/CloudStorage/OneDrive-ETHZurich/oneDrive-documents/data/DECLT-DB/experiments/test-1/config_with_steps.yaml
 
 delt-cli analyse add \
