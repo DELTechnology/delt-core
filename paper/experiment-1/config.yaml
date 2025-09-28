@@ -3,6 +3,62 @@ experiment:
   fastq_path: ~/data/DECLT-DB/fastq_files/368061_1-241105_AG_BZ_NC_pool1_NF_S3_R1_001.fastq.gz
   save_dir: /Users/adrianomartinelli/projects/delt/delt-core/paper
   num_cores: 10
+library:
+  products:
+  - product_1
+  - product_2
+  steps:
+  - - ABF
+    - product_1
+  - - B0
+    - ABF
+  - - B0
+    - CuAAC
+  - - B0
+    - SR
+  - - B1
+    - DH
+  - - B1
+    - Son
+  - - B1
+    - Suz
+  - - CuAAC
+    - product_1
+  - - DH
+    - product_2
+  - - SR
+    - product_1
+  - - Son
+    - product_2
+  - - Suz
+    - product_2
+  - - product_1
+    - DH
+  - - product_1
+    - Son
+  - - product_1
+    - Suz
+  - - scaffold_1
+    - CuAAC
+  - - scaffold_1
+    - SR
+  - - scaffold_2
+    - CuAAC
+  - - scaffold_2
+    - SR
+  - - scaffold_3
+    - CuAAC
+  - - scaffold_3
+    - SR
+  - - scaffold_4
+    - ABF
+  - - scaffold_5
+    - ABF
+  - - scaffold_6
+    - ABF
+  building_blocks:
+  - B0
+  - B1
 structure:
 - name: S0
   type: selection
@@ -439,7 +495,7 @@ selections:
     - 26
     - 0
 catalog:
-  scaffolds:
+  compounds:
     scaffold_1:
       smiles: Ic1ccc(CC(N=[N+]=[N-])C(O)=O)cc1
     scaffold_2:
@@ -458,7 +514,7 @@ catalog:
     SR:
       smirks: '[#6:1][$([NX2-][NX2+]#[NX1]),$([NX2]=[NX2+]=[NX1-])]>>[#6:1][N;H2]'
     CuAAC:
-      smirks: '[CX2:1]#[CX2:2].[N:3]=[N+:4]=[N-:5]>>[C:1]1=[C:2][N:3][N:4]=[N:5]1'
+      smirks: '[CX2:1]#[CX2;H1:2].[N:3]=[N+:4]=[N-:5]>>[C:1]1=[C:2][N-0:3][N-0:4]=[N-0:5]1'
     Suz:
       smirks: '[cX3:1][I].[#6:2][BX3]>>[cX3:1][#6:2]'
     Son:
@@ -850,8 +906,8 @@ whitelists:
   - index: 61
     smiles: N
     codon: AACCTG
-    reaction: PASSTHROUGH
-    reactant: scaffold_4
+    reaction: SR
+    reactant: scaffold_1
     product: product_1
   - index: 62
     smiles: CCC=CCC(O)=O
@@ -2074,8 +2130,8 @@ whitelists:
   - index: 265
     smiles: N
     codon: GACCTC
-    reaction: PASSTHROUGH
-    reactant: scaffold_5
+    reaction: SR
+    reactant: scaffold_2
     product: product_1
   - index: 266
     smiles: CCC=CCC(O)=O
@@ -3298,8 +3354,8 @@ whitelists:
   - index: 469
     smiles: N
     codon: AATTGG
-    reaction: PASSTHROUGH
-    reactant: scaffold_6
+    reaction: SR
+    reactant: scaffold_3
     product: product_1
   - index: 470
     smiles: CCC=CCC(O)=O
@@ -7546,48 +7602,3 @@ whitelists:
     codon: CGCTCGATA
   - name: AG24_75
     codon: CGCTCGATA
-analyses:
-  test-1:
-    selections:
-    - AG24_1
-    - AG24_2
-    - AG24_3
-    - AG24_10
-    - AG24_11
-    - AG24_12
-    - AG24_19
-    - AG24_20
-    - AG24_21
-  test-2:
-    selections:
-    - AG24_28
-    - AG24_29
-    - AG24_30
-    - AG24_37
-    - AG24_38
-    - AG24_39
-    - AG24_46
-    - AG24_47
-    - AG24_48
-  analysis-1:
-    selections:
-    - AG24_1
-    - AG24_2
-    - AG24_3
-    - AG24_10
-    - AG24_11
-    - AG24_12
-    - AG24_19
-    - AG24_20
-    - AG24_21
-  analysis-2:
-    selections:
-    - AG24_28
-    - AG24_29
-    - AG24_30
-    - AG24_37
-    - AG24_38
-    - AG24_39
-    - AG24_46
-    - AG24_47
-    - AG24_48
