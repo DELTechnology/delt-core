@@ -343,7 +343,7 @@ conda create -n delt-hit python=3.11 -y
 conda activate delt-hit
 
 # Install DELT-Hit package
-pip install git+https://github.com/DELTechnology/delt-hit.git
+pip install git+https://github.com/DELTechnology/delt-core.git@paper
 
 # Verify installation
 delt-hit --help
@@ -372,7 +372,6 @@ BiocManager::install(c("edgeR", "limma"))
 conda activate delt-hit
 
 # Test core functionality
-delt-hit --version
 delt-hit init --help
 ```
 
@@ -386,7 +385,7 @@ The configuration file defines library structure, experimental design, and analy
 initialization from standardized Excel templates for user convenience:
 
 ```bash
-delt-hit init --excel_path=path/to/library.xlsx
+delt-hit init --excel_path=/Users/adrianomartinelli/projects/delt/delt-core/paper/NF.xlsx
 ```
 
 **Excel template structure** (create file with following sheets):
@@ -469,7 +468,7 @@ structure enumeration.
 #### Step 4 | Enumerate library compounds from building blocks
 
 ```bash
-delt-hit library enumerate --config_path=config.yaml
+delt-hit library enumerate --config_path=/Users/adrianomartinelli/projects/delt/delt-core/paper/experiment-3/config.yaml
 ```
 
 This process generates all possible chemical structures from building block combinations according to defined reaction
@@ -488,7 +487,8 @@ incorporation and reaction connectivity. Nodes represent chemical intermediates,
 #### Step 5 | Calculate molecular properties and descriptors
 
 ```bash
-delt-hit library properties --config_path=config.yaml
+# ~1000 compounds/s
+delt-hit library properties --config_path=/Users/adrianomartinelli/projects/delt/delt-core/paper/experiment-3/config.yaml
 ```
 
 Comprehensive molecular descriptor calculation using RDKit for drug-likeness assessment and chemical space
@@ -508,10 +508,12 @@ space coverage.](figures/prop_mw.png)
 
 ```bash
 # Morgan fingerprints for similarity analysis
-delt-hit library represent --method=morgan --config_path=config.yaml
+# ~600 - 1000 compounds/s
+delt-hit library represent --method=morgan --config_path=/Users/adrianomartinelli/projects/delt/delt-core/paper/experiment-3/config.yaml
 
 # BERT embeddings for deep learning applications  
-delt-hit library represent --method=bert --config_path=config.yaml
+# ~600 - 1000 compounds/s
+delt-hit library represent --method=bert --config_path=/Users/adrianomartinelli/projects/delt/delt-core/paper/experiment-3/config.yaml
 ```
 
 Creates standardized chemical representations compatible with scikit-learn and deep learning frameworks.
@@ -531,48 +533,46 @@ structure:
     indels: false
   C0:
     type: constant
-    max_error_rate: 0.15   # Allow moderate errors in constant regions
+    max_error_rate: 1.01   # Allow moderate errors in constant regions
     indels: true
   B0:
     type: building_block
-    max_error_rate: 0.05   # Minimal errors in barcode regions
+    max_error_rate: 0
     indels: false
 ```
 
-#### Step 8 | Execute sequence demultiplexing workflow
+#### Step 8 | Create & Execute sequence demultiplexing
 
-```bash
-delt-hit demultiplex --config_path=config.yaml
-# execute demultiplexing script
-experiment-1/demultiplex/cutadapt_input_files/demultiplex.sh
-```
+Cutadapt is used to perform demultiplexing of the sequencing files. The following command prepares the cutadapt input 
+files and bash script for execution that users can adapt to their specific use cases if needed.
 
-Sequential adapter trimming and barcode identification using optimized Cutadapt workflows with DEL-specific error
-models.
-
-**Processing stages:**
+The script performs the following steps:
 
 1. **Adapter detection and trimming**: Removal of sequencing adapters and primers
 2. **Barcode extraction**: Identification of building block and selection barcodes
-3. **Quality filtering**: Retention of high-quality reads meeting error thresholds
-4. **Count aggregation**: Tabulation of reads per compound per selection
+3. **Count aggregation**: Tabulation of reads per compound per selection
+
+```bash
+delt-hit demultiplex prepare --config_path=/Users/adrianomartinelli/projects/delt/delt-core/paper/experiment-3/config.yaml
+# run demultiplexing script
+chmod u+x /Users/adrianomartinelli/projects/delt/delt-core/paper/experiment-3/demultiplex/cutadapt_input_files/demultiplex.sh
+/Users/adrianomartinelli/projects/delt/delt-core/paper/experiment-3/demultiplex/cutadapt_input_files/demultiplex.sh
+```
 
 #### Step 9 | Generate quality control reports and visualizations
 
+In the next step we assess the quality of the demultiplexing. This includes
+
+- Barcode recovery statistics
+- Error rate distributions
+
 ```bash
 # Comprehensive processing statistics
-delt-hit demultiplex report --config_path=config.yaml
+delt-hit demultiplex report --config_path=/Users/adrianomartinelli/projects/delt/delt-core/paper/experiment-3/config.yaml
 
 # Quality control visualizations
-delt-hit demultiplex qc --config_path=config.yaml
+delt-hit demultiplex qc --config_path=/Users/adrianomartinelli/projects/delt/delt-core/paper/experiment-3/config.yaml
 ```
-
-**Quality control outputs:**
-
-- Demultiplexing efficiency metrics
-- Barcode recovery statistics  
-- Library coverage assessment
-- Error rate distributions
 
 **Figure 8 | Demultiplexing quality control report.** Representative quality metrics showing successful sequence
 processing with >75% read retention and even barcode distribution.
@@ -586,25 +586,57 @@ no-protein controls.
 
 #### Step 11 | Perform enrichment analysis with multiple methods
 
-```bash
-# Simple fold-change analysis  
-delt-hit analyse enrichment --config_path=config.yaml \
-                            --name=analysis-1 \
-                            --method=counts
-experiment-1/analyses/analysis-2/counts/enrichment_counts.R
+To perform the enrichment analysis the user needs to define the selections to compare. Along with the `group` information
+provided in the selections section of the configuration the analysis scripts well be produced.
 
-# edgeR statistical analysis (recommended)
-delt-hit analyse enrichment --config_path=config.yaml \
-                            --name=analysis-1 \
-                            --method=edgeR
-experiment-1/analyses/analysis-2/edgeR/enrichment_edgeR.R
+```yaml
+# Add the `analyses` section in the config.yaml
+analyses:
+  analysis-1:
+    selections:
+      - AG24_1
+      - AG24_2
+      - AG24_3
+      - AG24_10
+      - AG24_11
+      - AG24_12
 
+  analysis-2:
+    selections:
+      - AG24_1
+      - AG24_2
+      - AG24_3
+      - AG24_19
+      - AG24_20
+      - AG24_21
 ```
 
 **Statistical approaches:**
 
 - **edgeR method**: Sophisticated RNA-seq-derived statistical model with empirical Bayes shrinkage
 - **Counts method**: Simple fold-change calculation suitable for initial screening
+
+Generate the R scripts for the statistical analysis by running:
+
+```bash
+delt-hit analyse enrichment \
+--config_path=/Users/adrianomartinelli/projects/delt/delt-core/paper/experiment-3/config.yaml \
+--name=analysis-1 \
+--method=counts
+
+# run the generated R script
+Rscript --vanilla /Users/adrianomartinelli/projects/delt/delt-core/paper/experiment-3/analyses/analysis-1/counts/enrichment_counts.R
+
+delt-hit analyse enrichment \
+--config_path=/Users/adrianomartinelli/projects/delt/delt-core/paper/experiment-3/config.yaml \
+--name=analysis-1 \
+--method=edgeR
+
+# run the generated R script
+Rscript --vanilla /Users/adrianomartinelli/projects/delt/delt-core/paper/experiment-3/analyses/analysis-1/edgeR/enrichment_edgeR.R
+
+```
+
 
 #### Step 12 | Rank hits and generate final output tables
 
@@ -631,8 +663,8 @@ p-value; LogP: partition coefficient;
 #### Step 13 | Launch interactive analysis dashboard
 
 ```bash
-delt-hit dashboard --config_path=config.yaml \
-                   --analysis_name=carbonic_anhydrase
+delt-hit dashboard --config_path=/Users/adrianomartinelli/projects/delt/delt-core/paper/experiment-3/config.yaml \
+                   --counts_path=/Users/adrianomartinelli/projects/delt/delt-core/paper/experiment-3/selections/AG24_10/counts.txt
 ```
 
 Opens web-based interface (typically http://localhost:8050) providing:

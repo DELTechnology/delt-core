@@ -14,10 +14,6 @@ library:
     - ABF
   - - B0
     - CuAAC
-  - - B0
-    - SR
-  - - B1
-    - DH
   - - B1
     - Son
   - - B1
@@ -189,8 +185,8 @@ selections:
     operator: A. Gloger
     date: '2024-09-26'
     target: USP-13 (biot.)
-    group: naive
-    analysis: analysis-1
+    group: protein
+    analysis: .nan
     beads: Dynabeads SA C1
     info: '-'
     blocking: Biotin
@@ -205,8 +201,8 @@ selections:
     operator: A. Gloger
     date: '2024-09-26'
     target: USP-13 (biot.)
-    group: naive
-    analysis: analysis-1
+    group: protein
+    analysis: .nan
     beads: Dynabeads SA C1
     info: '-'
     blocking: Biotin
@@ -221,8 +217,8 @@ selections:
     operator: A. Gloger
     date: '2024-09-26'
     target: USP-13 (biot.)
-    group: naive
-    analysis: analysis-1
+    group: protein
+    analysis: .nan
     beads: Dynabeads SA C1
     info: '-'
     blocking: Biotin
@@ -333,7 +329,7 @@ selections:
     operator: A. Gloger
     date: '2024-09-26'
     target: PTEN (biot.)
-    group: naive
+    group: protein
     analysis: analysis-2
     beads: Dynabeads SA C1
     info: '-'
@@ -349,7 +345,7 @@ selections:
     operator: A. Gloger
     date: '2024-09-26'
     target: PTEN (biot.)
-    group: naive
+    group: protein
     analysis: analysis-2
     beads: Dynabeads SA C1
     info: '-'
@@ -365,7 +361,7 @@ selections:
     operator: A. Gloger
     date: '2024-09-26'
     target: PTEN (biot.)
-    group: naive
+    group: protein
     analysis: analysis-2
     beads: Dynabeads SA C1
     info: '-'
@@ -529,9 +525,6 @@ analyses:
   - AG24_10
   - AG24_11
   - AG24_12
-  - AG24_19
-  - AG24_20
-  - AG24_21
   analysis-2:
   - AG24_28
   - AG24_29
@@ -962,7 +955,7 @@ whitelists:
     reactant: scaffold_1
     product: product_1
   - index: 61
-    smiles: N
+    smiles: .nan
     codon: AACCTG
     reaction: SR
     reactant: scaffold_1
@@ -2186,7 +2179,7 @@ whitelists:
     reactant: scaffold_2
     product: product_1
   - index: 265
-    smiles: N
+    smiles: .nan
     codon: GACCTC
     reaction: SR
     reactant: scaffold_2
@@ -3410,7 +3403,7 @@ whitelists:
     reactant: scaffold_3
     product: product_1
   - index: 469
-    smiles: N
+    smiles: .nan
     codon: AATTGG
     reaction: SR
     reactant: scaffold_3
@@ -7545,7 +7538,7 @@ whitelists:
     reactant: product_1
     product: product_2
   - index: 546
-    smiles: '[H]'
+    smiles: .nan
     codon: TGTTGCT
     reaction: DH
     reactant: product_1

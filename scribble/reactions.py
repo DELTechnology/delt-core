@@ -21,9 +21,19 @@ reactions = {
     'SR': dict(smirks='[#6:1][$([NX2-][NX2+]#[NX1]),$([NX2]=[NX2+]=[NX1-])]>>[#6:1][N;H2]'),
     'ABF': dict(smirks='[CX3:1](=[O:2])[OX2;H1].[N;H2:4]>>[CX3:1](=[O:2])[N;H:4]'),
     'Suz': dict(smirks='[cX3:1][I].[#6:2][BX3]>>[cX3:1][#6:2]'),
+    'deprotection': dict(smirks=''),
 }
 
+schemas = [
+    [('scaffold_1', 'SR'), ('SR', 'product_0'), ('product_0', 'DH'), ('DH', 'product_end')],
+    [('scaffold_2', 'SR'), ('SR', 'product_1'), ('product_1', 'DH'), ('DH', 'product_end')],
+    [('scaffold_3', 'SR'), ('SR', 'product_3'), ('product_3', 'DH'), ('DH', 'product_end')],
+    [('scaffold_1', 'CuAAC'), ('CuAAC', 'product_4'), ('product_4', 'DH'), ('DH', 'product_end')],
+]
+
 steps = [
+    ('s1_0', 'deprotection'),
+    ('deprotection', 's1_1'),
     ('s1_1', 'CuAAC'),
     ('1', 'CuAAC'),
     ('CuAAC', 'product_1'),
