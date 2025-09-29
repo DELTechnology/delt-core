@@ -9,3 +9,6 @@ pandoc protocols.md -o paper.pdf \
   -V urlcolor=blue
 
 pandoc protocols.md -o protocols.docx
+
+pandoc protocols.md -o protocols.pdf \
+  -V geometry:margin=1in
