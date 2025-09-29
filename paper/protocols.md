@@ -137,7 +137,9 @@ The protocol is organized into five core stages, carried out through a collabora
 (iv) statistical analysis and hit detection, and
 (v) data visualization and interpretation.
 
-The workflow is designed to support both computational chemists experienced with digital tools and wet-lab scientists. Each stage integrates thorough quality control measures and produces standardized outputs that can be readily used in downstream analyses.
+The workflow is designed to support both computational chemists experienced with digital tools and wet-lab scientists.
+Each stage integrates thorough quality control measures and produces standardized outputs that can be readily used in
+downstream analyses.
 
 ## Experimental design
 
@@ -154,8 +156,10 @@ and commonly used single/dual-display library architectures.
 
 ### Library chemistry
 
-The reaction cycles performed during library construction are defined by the user through a simple configuration file that indicates the different reactions steps.
-From this information, DELT-Hit builds a reaction graph representation that supports arbitrary reaction sequences and branching.
+The reaction cycles performed during library construction are defined by the user through a simple configuration file
+that indicates the different reactions steps.
+From this information, DELT-Hit builds a reaction graph representation that supports arbitrary reaction sequences and
+branching.
 
 ### Quality control parameters
 
@@ -190,6 +194,13 @@ Key quality metrics monitored throughout the workflow:
 1. Sequencing file in formats compatible with cutadapt (<TODO: list formats />)
 2. Configuration file
 
+Both those files are provided in the example dataset and downloaded from the resources below.
+
+| File                           | URL                                                                               |
+|--------------------------------|-----------------------------------------------------------------------------------|
+| NF-selection-campaign.fastq.gz | [https://figshare.com/ndownloader/files/58345816](NF-selection-campaign.fastq.gz) |
+| NF-selection-campaign.xlsx     | [https://figshare.com/ndownloader/files/58345864](NF-selection-campaign.xlsx)     |
+
 ### Setup
 
 #### 1. Conda
@@ -201,9 +212,9 @@ environment for this project. This ensures that all dependencies are managed cor
   operating system.
 - After installation, you should be able to use the `conda` command in your terminal.
     ```bash
-    conda create -n del python=3.11 -y
-    conda activate del
-    # Always activate this environment (`conda activate del`) before using `delt-core`.
+    conda create -n decl-hit python=3.11 -y
+    conda activate decl-hit
+    # Always activate this environment (`conda activate decl-hit`)
     pip install git+https://github.com/DELTechnology/delt-core.git
     delt-cli --help
     # You should see a list of available commands.
@@ -230,20 +241,30 @@ Some analysis features in `delt-core` (like enrichment analysis with `edgeR`) de
 
 ## Procedures
 
-1. Create configuration file
+1. Create configuration file: This section describes how to create the configuration file that defines the library
+   structure, reactions, building blocks, and experimental selections. To facilitate the initialization of the
+   configuration file, this information can be read in from an excel file with
+   sheets that have the corresponding names and then converted to a config.yaml with the command
+
+    ```bash
+    delt-cli init --excel_path=path/to/library.xlsx`
+    ```
 
 Timing: 30 minutes - 8h
 
-- Experiment section
+- `experiment` sheet
 
-| variable   | value                                                                            |
-|------------|----------------------------------------------------------------------------------|
-| name       | test-1                                                                           |
-| fastq_path | ~/data/DECLT-DB/fastq_files/368061_1-241105_AG_BZ_NC_pool1_NF_S3_R1_001.fastq.gz |
-| save_dir   | ~/data/DECLT-DB/experiments                                                      |
-| num_cores  | 10                                                                               |
+| variable   | value                                             |
+|------------|---------------------------------------------------|
+| name       | test-1                                            |
+| fastq_path | ~/decl/fastq_files/NF-selection-campaign.fastq.gz |
+| save_dir   | ~/decl/experiments                                |
+| num_cores  | 10                                                |
 
-- Selections section
+- `selections` sheet. The S0 and S1 columns indicate the selection primers used for each multiplexed selection
+  experiment.
+  The `group` column indicates which selections were the naive, no-protein or protein selections.
+  The `analysis` column indicates which selections should be grouped together for statistical analysis.
 
 | name    | operator  | date      | target               | group      | beads           | info | blocking | buffer | protocol | S0     | S1        |
 |---------|-----------|-----------|----------------------|------------|-----------------|------|----------|--------|----------|--------|-----------|
@@ -257,7 +278,7 @@ Timing: 30 minutes - 8h
 | AG24_20 | A. Gloger | 26-Sep-24 | USP-13 (biot.)       | naive      | Dynabeads SA C1 | -    | Biotin   | PBS-T  | DECL_5W  | ACTGAT | CGCTCGATA |
 | AG24_21 | A. Gloger | 26-Sep-24 | USP-13 (biot.)       | naive      | Dynabeads SA C1 | -    | Biotin   | PBS-T  | DECL_5W  | AGACTA | CGCTCGATA |
 
-- Structure section
+- `structure` sheet
 
 | name | type           | max_error_rate | indels |
 |------|----------------|----------------|--------|
@@ -269,23 +290,25 @@ Timing: 30 minutes - 8h
 | C2   | constant       | 0              | FALSE  |
 | S1   | selection      | 0              | FALSE  |
 
-- Compounds section
+- `compounds` sheet
 
 | name       | smiles                           |
 |------------|----------------------------------|
 | scaffold_1 | Ic1ccc(CC(N=[N+]=[N-])C(O)=O)cc1 |
 | scaffold_2 | [N-]=[N+]=NC(C(O)=O)Cc1cc(I)ccc1 |
 
-- Reactions section
+- `reactions` sheet
 
-| name  | smirks                                                               |
-|-------|----------------------------------------------------------------------|
-| ABF   | `[CX3:1](=[O:2])[OX2;H1].[N;H2:4]>>[CX3:1](=[O:2])[N;H:4]`           |
-| SR    | `[#6:1][$([NX2-][NX2+]#[NX1]),$([NX2]=[NX2+]=[NX1-])]>>[#6:1][N;H2]` |
-| CuAAC | `[CX2:1]#[CX2:2].[N:3]=[N+:4]=[N-:5]>>[C:1]1=[C:2][N:3][N:4]=[N:5]1` |
-| Suz   | `[cX3:1][I].[#6:2][BX3]>>[cX3:1][#6:2]`                              |
+| name  | smirks                                                                        |
+|-------|-------------------------------------------------------------------------------|
+| ABF   | `[CX3:1](=[O:2])[OX2;H1].[N;H2:4]>>[CX3:1](=[O:2])[N;H:4]`                    |
+| SR    | `[#6:1][$([NX2-][NX2+]#[NX1]),$([NX2]=[NX2+]=[NX1-])]>>[#6:1][N;H2]`          |
+| CuAAC | `[CX2:1]#[CX2;H1:2].[N:3]=[N+:4]=[N-:5]>>[C:1]1=[C:2][N-0:3][N-0:4]=[N-0:5]1` |
+| Suz   | `[cX3:1][I].[#6:2][BX3]>>[cX3:1][#6:2]`                                       |
+| Son   | `[cX3:1][I].[CX2:2]#[CX2;H1:3]>>[cX3:1]-[CX2:3]#[CX2:2]`                      |
+| DH    | `[cX3:1][I]>>[cX3;H1:1]`                                                      |
 
-- Constant section
+- `constant` sheet
 
 | name | codon                     |
 |------|---------------------------|
@@ -293,7 +316,7 @@ Timing: 30 minutes - 8h
 | C1   | CGAGTCCCATGGCGCCGGATCGACG |
 | C2   | GCGTCAGGCAGC              |
 
-- Building block 0 section
+- Building block 0 (B0) sheet
 
 | smiles                 | codon  | reaction | reactant   | product   |
 |------------------------|--------|----------|------------|-----------|
@@ -302,8 +325,9 @@ Timing: 30 minutes - 8h
 | CNC1=CC=C(OCC#C)C=C1   | CAAGTG | CuAAC    | scaffold_1 | product_1 |
 | NC(=O)C1=CC(=CN=C1)C#C | GTCCGC | CuAAC    | scaffold_1 | product_1 |
 | O=C(NCC#C)NC1CC1       | GACGAC | CuAAC    | scaffold_1 | product_1 |
+| ...                    | ...    | ...      | ...        | ...       |
 
-- Building block 1 section
+- Building block 1 (B1) sheet
 
 | smiles               | codon   | reaction | reactant  | product   |
 |----------------------|---------|----------|-----------|-----------|
@@ -312,17 +336,15 @@ Timing: 30 minutes - 8h
 | O.Nc1cccc(c1)B(O)O   | CTCATTG | Suz      | product_1 | product_2 |
 | Cc1cc(ccc1F)B(O)O    | GTAGAGA | Suz      | product_1 | product_2 |
 | COc1ccc(cc1)B(O)O    | GTTACCT | Suz      | product_1 | product_2 |
-
-To facilitate the initialization of the configuration files, this information can be read in from an excel file with
-sheets that have the corresponding names and then converted to a config.yaml with the command
-
-```bash
-delt-cli init --excel_path=path/to/library.xlsx`
-```
+| ...                  | ...     | ...      | ...       | ...       |
 
 2. Enumerate library compounds:
 
-Timing: 5 minutes - 2h
+Timing: 10 minutes - 2h
+
+Note: Most utilities can process 600-1000 compounds per second. For very large libraries we recommend to remove
+compounds
+that have not been detected during the selection process.
 
 ```bash
 delt-cli library enumerate --config_path=config.yaml
@@ -368,6 +390,13 @@ This will create the following files in the `save_dir / name` folder:
     ```bash
     delt-cli demultiplex report --config_path=config.yaml
     delt-cli demultiplex qc --config_path=config.yaml
+    ```
+
+12. **Visualize results in a web browser**
+    ```bash
+    delt-cli dashboard \
+    --config_path=config.yaml \
+    --counts_path=/Users/adrianomartinelli/projects/delt/delt-core/paper/experiment-1/selections/AG24_10/counts.txt
     ```
 
 ![report.png](figures/report.png)

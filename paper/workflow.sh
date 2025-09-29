@@ -44,5 +44,5 @@ delt-cli library represent --method=morgan --config_path=/Users/adrianomartinell
 delt-cli library represent --method=bert --config_path=/Users/adrianomartinelli/projects/delt/delt-core/paper/experiment-1/config.yaml
 
 delt-cli dashboard \
---config_path=/Users/adrianomartinelli/Library/CloudStorage/OneDrive-ETHZurich/oneDrive-documents/data/DECLT-DB/experiments/test-1/config_with_steps.yaml \
---counts_path=/Users/adrianomartinelli/Library/CloudStorage/OneDrive-ETHZurich/oneDrive-documents/data/DECLT-DB/experiments/test-1/selections/AG24_1/counts.txt
+--config_path=/Users/adrianomartinelli/projects/delt/delt-core/paper/experiment-1/config.yaml \
+--counts_path=/Users/adrianomartinelli/projects/delt/delt-core/paper/experiment-1/selections/AG24_10/counts.txt

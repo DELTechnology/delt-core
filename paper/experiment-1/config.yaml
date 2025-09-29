@@ -1,7 +1,7 @@
 experiment:
   name: experiment-1
-  fastq_path: ~/data/DECLT-DB/fastq_files/368061_1-241105_AG_BZ_NC_pool1_NF_S3_R1_001.fastq.gz
-  save_dir: /Users/adrianomartinelli/projects/delt/delt-core/paper
+  fastq_path: /Users/adrianomartinelli/Library/CloudStorage/OneDrive-ETHZurich/oneDrive-documents/data/DECLT-DB/fastq_files/368061_1-241105_AG_BZ_NC_pool1_NF_S3_R1_001.fastq.gz
+  save_dir: /Users/adrianomartinelli/projects/delt/delt-core/paper/
   num_cores: 10
 library:
   products:
@@ -94,6 +94,7 @@ selections:
     date: '2024-09-26'
     target: No Protein
     group: no_protein
+    analysis: analysis-1
     beads: Dynabeads SA C1
     info: '-'
     blocking: Biotin
@@ -109,6 +110,7 @@ selections:
     date: '2024-09-26'
     target: No Protein
     group: no_protein
+    analysis: analysis-1
     beads: Dynabeads SA C1
     info: '-'
     blocking: Biotin
@@ -124,6 +126,7 @@ selections:
     date: '2024-09-26'
     target: No Protein
     group: no_protein
+    analysis: analysis-1
     beads: Dynabeads SA C1
     info: '-'
     blocking: Biotin
@@ -139,6 +142,7 @@ selections:
     date: '2024-09-26'
     target: hCAII-Avi-His (biot)
     group: protein
+    analysis: analysis-1
     beads: Dynabeads SA C1
     info: '-'
     blocking: Biotin
@@ -154,6 +158,7 @@ selections:
     date: '2024-09-26'
     target: hCAII-Avi-His (biot)
     group: protein
+    analysis: analysis-1
     beads: Dynabeads SA C1
     info: '-'
     blocking: Biotin
@@ -169,6 +174,7 @@ selections:
     date: '2024-09-26'
     target: hCAII-Avi-His (biot)
     group: protein
+    analysis: analysis-1
     beads: Dynabeads SA C1
     info: '-'
     blocking: Biotin
@@ -184,6 +190,7 @@ selections:
     date: '2024-09-26'
     target: USP-13 (biot.)
     group: naive
+    analysis: analysis-1
     beads: Dynabeads SA C1
     info: '-'
     blocking: Biotin
@@ -199,6 +206,7 @@ selections:
     date: '2024-09-26'
     target: USP-13 (biot.)
     group: naive
+    analysis: analysis-1
     beads: Dynabeads SA C1
     info: '-'
     blocking: Biotin
@@ -214,6 +222,7 @@ selections:
     date: '2024-09-26'
     target: USP-13 (biot.)
     group: naive
+    analysis: analysis-1
     beads: Dynabeads SA C1
     info: '-'
     blocking: Biotin
@@ -229,6 +238,7 @@ selections:
     date: '2024-09-26'
     target: No Protein
     group: no_protein
+    analysis: analysis-2
     beads: Dynabeads SA C1
     info: '-'
     blocking: Biotin
@@ -244,6 +254,7 @@ selections:
     date: '2024-09-26'
     target: No Protein
     group: no_protein
+    analysis: analysis-2
     beads: Dynabeads SA C1
     info: '-'
     blocking: Biotin
@@ -259,6 +270,7 @@ selections:
     date: '2024-09-26'
     target: No Protein
     group: no_protein
+    analysis: analysis-2
     beads: Dynabeads SA C1
     info: '-'
     blocking: Biotin
@@ -274,6 +286,7 @@ selections:
     date: '2024-09-26'
     target: USP-10 (biot.)
     group: protein
+    analysis: analysis-2
     beads: Dynabeads SA C1
     info: '-'
     blocking: Biotin
@@ -289,6 +302,7 @@ selections:
     date: '2024-09-26'
     target: USP-10 (biot.)
     group: protein
+    analysis: analysis-2
     beads: Dynabeads SA C1
     info: '-'
     blocking: Biotin
@@ -304,6 +318,7 @@ selections:
     date: '2024-09-26'
     target: USP-10 (biot.)
     group: protein
+    analysis: analysis-2
     beads: Dynabeads SA C1
     info: '-'
     blocking: Biotin
@@ -319,6 +334,7 @@ selections:
     date: '2024-09-26'
     target: PTEN (biot.)
     group: naive
+    analysis: analysis-2
     beads: Dynabeads SA C1
     info: '-'
     blocking: Biotin
@@ -334,6 +350,7 @@ selections:
     date: '2024-09-26'
     target: PTEN (biot.)
     group: naive
+    analysis: analysis-2
     beads: Dynabeads SA C1
     info: '-'
     blocking: Biotin
@@ -349,6 +366,7 @@ selections:
     date: '2024-09-26'
     target: PTEN (biot.)
     group: naive
+    analysis: analysis-2
     beads: Dynabeads SA C1
     info: '-'
     blocking: Biotin
@@ -364,6 +382,7 @@ selections:
     date: '2024-10-17'
     target: No Protein
     group: no_protein
+    analysis: analysis-3
     beads: Streptactin-Beads (MagStrep "type3" XT beads, 5% suspension)
     info: '-'
     blocking: .nan
@@ -379,6 +398,7 @@ selections:
     date: '2024-10-17'
     target: No Protein
     group: no_protein
+    analysis: analysis-3
     beads: Streptactin-Beads (MagStrep "type3" XT beads, 5% suspension)
     info: '-'
     blocking: .nan
@@ -394,6 +414,7 @@ selections:
     date: '2024-10-17'
     target: No Protein
     group: no_protein
+    analysis: analysis-3
     beads: Streptactin-Beads (MagStrep "type3" XT beads, 5% suspension)
     info: '-'
     blocking: .nan
@@ -409,6 +430,7 @@ selections:
     date: '2024-10-17'
     target: GYS:GYG1 (TwinStrept)
     group: protein
+    analysis: analysis-3
     beads: Streptactin-Beads (MagStrep "type3" XT beads, 5% suspension)
     info: Substrate (G6P)
     blocking: .nan
@@ -424,6 +446,7 @@ selections:
     date: '2024-10-17'
     target: GYS:GYG1 (TwinStrept)
     group: protein
+    analysis: analysis-3
     beads: Streptactin-Beads (MagStrep "type3" XT beads, 5% suspension)
     info: Substrate (G6P)
     blocking: .nan
@@ -439,6 +462,7 @@ selections:
     date: '2024-10-17'
     target: GYS:GYG1 (TwinStrept)
     group: protein
+    analysis: analysis-3
     beads: Streptactin-Beads (MagStrep "type3" XT beads, 5% suspension)
     info: Substrate (G6P)
     blocking: .nan
@@ -454,6 +478,7 @@ selections:
     date: '2024-10-17'
     target: GYS:GYG1 (TwinStrept)
     group: protein
+    analysis: analysis-3
     beads: Streptactin-Beads (MagStrep "type3" XT beads, 5% suspension)
     info: (G6P) + Analog23
     blocking: .nan
@@ -469,6 +494,7 @@ selections:
     date: '2024-10-17'
     target: GYS:GYG1 (TwinStrept)
     group: protein
+    analysis: analysis-3
     beads: Streptactin-Beads (MagStrep "type3" XT beads, 5% suspension)
     info: (G6P) + Analog23
     blocking: .nan
@@ -484,6 +510,7 @@ selections:
     date: '2024-10-17'
     target: GYS:GYG1 (TwinStrept)
     group: protein
+    analysis: analysis-3
     beads: Streptactin-Beads (MagStrep "type3" XT beads, 5% suspension)
     info: (G6P) + Analog23
     blocking: .nan
@@ -494,6 +521,37 @@ selections:
     ids:
     - 26
     - 0
+analyses:
+  analysis-1:
+  - AG24_1
+  - AG24_2
+  - AG24_3
+  - AG24_10
+  - AG24_11
+  - AG24_12
+  - AG24_19
+  - AG24_20
+  - AG24_21
+  analysis-2:
+  - AG24_28
+  - AG24_29
+  - AG24_30
+  - AG24_37
+  - AG24_38
+  - AG24_39
+  - AG24_46
+  - AG24_47
+  - AG24_48
+  analysis-3:
+  - AG24_55
+  - AG24_56
+  - AG24_57
+  - AG24_64
+  - AG24_65
+  - AG24_66
+  - AG24_73
+  - AG24_74
+  - AG24_75
 catalog:
   compounds:
     scaffold_1:
