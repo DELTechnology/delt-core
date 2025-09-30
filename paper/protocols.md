@@ -343,7 +343,7 @@ conda create -n delt-hit python=3.11 -y
 conda activate delt-hit
 
 # Install DELT-Hit package
-pip install git+https://github.com/DELTechnology/delt-core.git@paper
+pip install git+ssh://git@github.com/DELTechnology/delt-core.git@paper
 
 # Verify installation
 delt-hit --help
