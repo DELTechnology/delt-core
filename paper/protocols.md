@@ -287,7 +287,7 @@ drug-likeness assessment.
 
 **Core requirements:**
 
-- Python 3.10 or higher with pip package manager
+- Python 3.12 or higher with pip package manager
 - Conda package manager (Miniconda or Anaconda)
 - R statistical computing environment (version 4.1+)
 - Git version control system
@@ -339,7 +339,7 @@ We recommend using Miniconda package manager to create an isolated environment e
 # Follow instructions at: https://docs.anaconda.com/miniconda
 
 # Create dedicated environment
-conda create -n delt-hit python=3.11 -y
+conda create -n delt-hit python=3.12 -y
 conda activate delt-hit
 
 # Install DELT-Hit package
@@ -388,12 +388,13 @@ initialization from standardized Excel templates for user convenience:
 delt-hit init --excel_path=/Users/adrianomartinelli/projects/delt/delt-core/paper/NF.xlsx
 ```
 
-**Excel template structure** (create file with following sheets):
+##### **Excel template structure** (create file with following sheets):
 
-**`experiment` sheet:**
+1 . `experiment` sheet:
 
+Create a sheet named `experiment` with the information summarized in Table 1.
 
-**Table 1 | `experiment` configuration sheet.** Basic project parameters including dataset name, file paths, and
+**Table 1 | `experiment` configuration sheet.** Basic experiment parameters including experiment name, file paths, and
 computational resources.
 
 | Variable   | Value                                 |
@@ -404,8 +405,17 @@ computational resources.
 | num_cores  | 16                                    |
 
 
-**`selections` sheet:**
+2. `selections` sheet:
 
+Create a sheet named `selections` with the information summarized in Table 2.
+The columns S0 and S1 define the multiplexing barcodes used to identify individual selection experiments.
+The minimal required information are:
+
+  - name
+  - target
+  - group
+  - S0
+  - S1
 
 **Table 2 | `selection` experimental design.** Multiplexing barcodes (S0, S1) identify individual selection experiments.
 Groups define statistical comparisons between protein and control selections.
