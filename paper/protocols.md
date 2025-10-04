@@ -379,18 +379,24 @@ delt-hit init --help
 
 ### Phase 1: Project initialization and configuration • TIMING 15-45 min
 
-#### Step 1 | Create project configuration from Excel template
-
-The configuration file defines library structure, experimental design, and analysis parameters. DELT-Hit supports
-initialization from standardized Excel templates for user convenience:
+The configuration file defines library structure, experimental design, and analysis parameters. DELT-Hit supports 
+initialization from standardized Excel templates for user convenience.
 
 ```bash
 delt-hit init --excel_path=/Users/adrianomartinelli/projects/delt/delt-core/paper/NF.xlsx
 ```
 
-##### **Excel template structure** (create file with following sheets):
+This command will create the `yaml` configuration file under `save_dir / name / config.yaml` as specified in the excel 
+sheet.
 
-1 . `experiment` sheet:
+In the next section we describe how to setup an excel file that
+contains all the relevant information to construct a config file for the analysis.
+
+#### Step 1 | Create project configuration from Excel template
+
+The execl sheet consists of four main sections that define the experiment parameters, and library structure:
+
+1.1 `experiment` sheet:
 
 Create a sheet named `experiment` with the information summarized in Table 1.
 
@@ -405,7 +411,7 @@ computational resources.
 | num_cores  | 16                                    |
 
 
-2. `selections` sheet:
+1.2. `selections` sheet:
 
 Create a sheet named `selections` with the information summarized in Table 2.
 The columns S0 and S1 define the multiplexing barcodes used to identify individual selection experiments.
@@ -420,17 +426,22 @@ The minimal required information are:
 **Table 2 | `selection` experimental design.** Multiplexing barcodes (S0, S1) identify individual selection experiments.
 Groups define statistical comparisons between protein and control selections.
 
-| name   | operator | date      | target     | group      | S0     | S1        |
-|--------|----------|-----------|------------|------------|--------|-----------|
-| CA_N1  | A.Smith  | 15-Oct-24 | No protein | no_protein | ACACAC | CGCTCGATA |
-| CA_N2  | A.Smith  | 15-Oct-24 | No protein | no_protein | ACAGCA | CGCTCGATA |
-| CA_P1  | A.Smith  | 15-Oct-24 | hCAII      | protein    | ACGACG | CGCTCGATA |
-| CA_P2  | A.Smith  | 15-Oct-24 | hCAII      | protein    | ACGCGA | CGCTCGATA |
+| name  | operator | date      | target | group      | S0     | S1        |
+|-------|----------|-----------|--------|------------|--------|-----------|
+| CA_N1 | A.Smith  | 15-Oct-24 | -      | no_protein | ACACAC | CGCTCGATA |
+| CA_N2 | A.Smith  | 15-Oct-24 | -      | no_protein | ACAGCA | CGCTCGATA |
+| CA_P1 | A.Smith  | 15-Oct-24 | hCAII  | protein    | ACGACG | CGCTCGATA |
+| CA_P2 | A.Smith  | 15-Oct-24 | hCAII  | protein    | ACGCGA | CGCTCGATA |
+| CA_A1 | A.Smith  | 15-Oct-24 | -      | naive      | ACGCGT | CGCTCGATA |
+| CA_A2 | A.Smith  | 15-Oct-24 | -      | naive      | ACGCGG | CGCTCGATA |
 
 
+1.3 `structure` sheet:
 
-**`structure` sheet:**
-
+Next create a sheet named `structure` that lists the regions of your DNA constructs.
+The example below defines a construct that has two selection primers (S0, S1), two constant regions (C0, C1) and two 
+building block barcodes (B0, B1). For each of the regions you can define the maximum error rate tolerated during
+adapter trimming.
 
 **Table 3 | DNA sequence structure definition.** Sequence regions with error tolerance parameters for demultiplexing.
 Selection barcodes require perfect matches while constant regions allow moderate error rates.
@@ -438,17 +449,41 @@ Selection barcodes require perfect matches while constant regions allow moderate
 | name | type           | max_error_rate | indels |
 |------|----------------|----------------|--------|
 | S0   | selection      | 0              | FALSE  |
-| C0   | constant       | 0.1            | FALSE  |
+| C0   | constant       | 1.1            | TRUE   |
 | B0   | building_block | 0              | FALSE  |
-| C1   | constant       | 0.1            | FALSE  |
+| C1   | constant       | 1.1            | TRUE   |
 | B1   | building_block | 0              | FALSE  |
 | S1   | selection      | 0              | FALSE  |
 
 
+1.4 `constant` sheet:
+
+Next create a sheet named `constant` that contains all the constant regions of your DNA constructs as shown in Table 4.
+The names of the regions need to match the names defined in the `structure` sheet.
+
+
+**Table 4 | Constant DNA regions definition.** 
+
+| name | codon                   |
+|------|--------------------------|
+| C0   | GGAGCTTCTGAATTCTGTGTGCTG |
+| C1   | CGAGTCCCATGGCGCCGGATCGACG |
+| C2   | GCGTCAGGCAGC             |
+
+
 #### Step 2 | Define chemical building blocks and reactions
 
-**Building block sheets** (B0, B1, etc.):
+To complete the configuration we need to define the building blocks used in the library. 
+DELT-HIT supports any number of chemical building blocks. For each building block create a sheet named by the name
+indicated in the `selection` sheet (e.g. B0, B1, etc.).
 
+
+2.1 Building block sheets (B0, B1, etc.):
+
+For each building block create a sheet that contains all the codons for the different building blocks as shown in 
+Table 4. For each building block one needs to specify the expected codon. Users that want to be able to enumerate the 
+library members and to calculate molecular properties, are required to fill in the `smiles`, `reaction`, `reactant`, and 
+`product` columns as well. 
 
 **Table 4 | Building block definition.** Chemical structures (SMILES), DNA codons, and reaction connectivity for
 library enumeration.
@@ -461,8 +496,12 @@ library enumeration.
 | ...                    | ...    | ..       | ...        | ...       |
 
 
-**Reactions sheet:**
+2.2 Reactions sheet:
 
+_Only applies to users that want to enumerate the library members_
+
+Create a sheet named `reactions` that contains all the reactions used during library synthesis as shown in Table 5.
+This table needs to contain the reactions mentioned in the `reaction` column of the building block sheets.
 
 **Table 5 | Reaction SMARTS templates.** Chemical transformation definitions using SMARTS notation for automated
 structure enumeration.
@@ -471,6 +510,25 @@ structure enumeration.
 |-------|-----------------------------------------------------------|
 | CuAAC | "[CX2:1]#[CX2;H1:2].[N:3]=[N+:4]=[N-:5]>>[C:1]1=[C:2][N-0:3][N-0:4]=[N-0:5]1" |
 | Suzuki| "[cX3:1][I].[#6:2][BX3]>>[cX3:1][#6:2]"                     |
+
+
+2.3 Compounds sheet:
+
+_Only applies to users that want to enumerate the library members_
+
+Create a sheet named `compounds` that contains all other compounds used during library synthesis as shown in Table 6.
+
+
+**Table 6 | Compounds SMILES.** Other compounds used in chemical reactions other than the building blocks.
+
+| name        | smiles                                        |
+|-------------|-----------------------------------------------|
+| scaffold_1  | Ic1ccc(CC(N=[N+]=[N-])C(O)=O)cc1              |
+| scaffold_2  | [N-]=[N+]=NC(C(O)=O)Cc1cc(I)ccc1              |
+| scaffold_3  | [N-]=[N+]=NC(C(O)=O)Cc1c(I)cccc1              |
+| scaffold_4  | NC(Cc1ccc(I)cc1)C(=O)O                        |
+| scaffold_5  | NC(Cc1cccc(I)c1)C(=O)O                        |
+| scaffold_6  | NC(Cc1ccccc1I)C(=O)O                          |
 
 
 ### Phase 2: Chemical library enumeration and analysis • TIMING 10 min - 2 h
