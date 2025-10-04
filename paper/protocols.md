@@ -46,47 +46,47 @@ across the growing DEL community.
 
 - **Industrial-scale capabilities**: DELT-Hit is designed to handle the computational demands of modern pharmaceutical
 DEL campaigns, efficiently processing libraries containing hundreds of millions of compounds while maintaining
-user-friendly operation
+user-friendly operation.
 
 - **Comprehensive dual architecture support**: The framework provides native support for both single and dual display
-DEL architectures, addressing the full spectrum of current library designs used in industry and academia
+DEL architectures, addressing the full spectrum of current library designs used in industry and academia.
 
 - **Validated algorithms**: Integrates proven bioinformatics tools (Cutadapt for sequence processing, edgeR for
 statistical analysis) with specialized DEL-specific optimizations, error handling, and quality control metrics developed
-through extensive validation studies
+through extensive validation studies.
 
 - **Flexible and robust design**: Modular architecture accommodates diverse library formats, custom reaction templates,
-and building block definitions while maintaining rigorous quality control standards
+and building block definitions while maintaining rigorous quality control standards.
 
 - **Research-grade quality assurance**: Built-in quality control metrics, automated validation checks, and standardized
-reporting ensure reliable results and facilitate systematic troubleshooting across different experimental conditions
+reporting ensure reliable results and facilitate systematic troubleshooting across different experimental conditions.
 
 - **Machine learning ecosystem integration**: Generates standardized, analysis-ready datasets fully compatible with
 downstream machine learning workflows for advanced hit prediction, structure-activity relationship analysis, and virtual
-screening applications
+screening applications.
 
 ## Technical Overview
 
-DELT-Hit is implemented as a Python package organized into five core modules:
+DELT-Hit is implemented as a Python package organized into five core modules accessible via the `delt-cli` command-line tool:
 
 **Core Analysis Modules:**
 
-- **init**: Project initialization and configuration management with Excel template support
+- **`init`**: Project initialization and configuration management with Excel template support.
 
-- **demultiplex**: Sequence processing and demultiplexing with adaptive error correction
+- **`demultiplex`**: Sequence processing and demultiplexing with adaptive error correction.
   
-  - qc: Quality control plot generation and statistical summaries
-  - report: Comprehensive reporting with sequence mapping statistics
+  - `qc`: Quality control plot generation and statistical summaries.
+  - `report`: Comprehensive reporting with sequence mapping statistics.
 
-- **library**: Chemical structure reconstruction and molecular property calculation
+- **`library`**: Chemical structure reconstruction and molecular property calculation.
   
-  - enumerate: SMILES construction from reaction steps and building blocks
-  - properties: Molecular descriptor computation and distribution visualization
-  - represent: Chemical representation generation for downstream machine learning
+  - `enumerate`: SMILES construction from reaction steps and building blocks.
+  - `properties`: Molecular descriptor computation and distribution visualization.
+  - `represent`: Chemical representation generation for downstream machine learning.
 
-- **dashboard**: Interactive data exploration and real-time visualization interface
+- **`analyse`**: Statistical analysis and hit ranking with multiple enrichment methods.
 
-- **analyse**: Statistical analysis and hit ranking with multiple enrichment methods
+- **`dashboard`**: Interactive data exploration and real-time visualization interface.
 
 ## Introduction
 
@@ -133,9 +133,7 @@ millions of compounds.
 Several academic and commercial solutions address components of the DEL informatics workflow, but few provide
 comprehensive, openly available end-to-end pipelines.
 
-
-**Table 1** compares DELT-Hit with representative existing methods
-across key criteria including availability, scope, and performance characteristics.
+**Table 1 | Comparison of DELT-Hit with representative existing methods.** Key criteria include availability, scope, and performance characteristics.
 
 | Feature              | DELT-Hit          | DELi (UNC)     | Commercial Platform A¹ | Academic Tool B² |
 |----------------------|-------------------|----------------|------------------------|------------------|
@@ -148,8 +146,8 @@ across key criteria including availability, scope, and performance characteristi
 | Documentation        | Comprehensive     | Basic          | Commercial             | Limited          |
 | Cost                 | Free              | Free           | License required       | Free             |
 
-¹Commercial platforms vary in capabilities and are not directly comparable
-²Representative of specialized academic tools focusing on specific workflow components
+¹Commercial platforms vary in capabilities and are not directly comparable.
+²Representative of specialized academic tools focusing on specific workflow components.
 
 DELT-Hit provides unique advantages in combining industrial-scale performance with open-source accessibility,
 comprehensive dual architecture support, and seamless integration with machine learning workflows. Unlike commercial
@@ -171,16 +169,16 @@ from simple two-cycle libraries to complex multi-branch synthetic schemes. Repre
 While DELT-Hit addresses many challenges in DEL analysis, several limitations should be considered:
 
 - **Computational requirements**: Memory usage and processing time scale significantly with library size and sequencing
-depth, requiring high-memory systems for very large datasets (>1 billion compounds)
+depth, requiring high-memory systems for very large datasets (>1 billion compounds).
 
 - **Library complexity**: Complex architectures with non-standard reaction schemes or unusual building block formats may
-require custom configuration and validation
+require custom configuration and validation.
 
 - **Error model assumptions**: Demultiplexing algorithms assume independence of sequencing errors across barcode
-positions, which may not hold for all sequencing platforms
+positions, which may not hold for all sequencing platforms.
 
 - **Chemical structure dependency**: Structure reconstruction accuracy depends on precise reaction SMARTS definitions
-and building block structure quality
+and building block structure quality.
 
 ### Overview of the procedure
 
@@ -189,18 +187,18 @@ designed to support both computational chemists experienced with bioinformatics 
 DEL data analysis:
 
 **(i) Project setup and library specification** (Steps 1-3): Configuration file creation from Excel templates, library
-architecture definition, and experimental metadata specification
+architecture definition, and experimental metadata specification.
 
 **(ii) Chemical structure enumeration and property calculation** (Steps 4-6): Automated SMILES generation from reaction
-schemes, comprehensive molecular descriptor calculation, and chemical space visualization
+schemes, comprehensive molecular descriptor calculation, and chemical space visualization.
 
 **(iii) Sequence demultiplexing and quality assessment** (Steps 7-9): High-throughput sequence processing, barcode
-identification with error correction, and quality control metric generation
+identification with error correction, and quality control metric generation.
 
 **(iv) Statistical analysis and hit detection** (Steps 10-12): Enrichment analysis using established RNA-seq methods,
-hit ranking with multiple statistical approaches, and result validation
+hit ranking with multiple statistical approaches, and result validation.
 
-**(v) Data visualization and interpretation** (Steps 13): Interactive dashboard exploration
+**(v) Data visualization and interpretation** (Step 13): Interactive dashboard exploration.
 
 The workflow supports both automated execution for
 routine screening analysis and step-by-step processing for method development and troubleshooting.
@@ -235,7 +233,7 @@ for most academic applications and focused screening campaigns.
 building block incorporation sites.
 
 The framework automatically validates library architecture consistency and provides warnings for potential issues such
-as incomplete reaction definitions or missing building blocks (<TOOD>).
+as incomplete reaction definitions or missing building blocks.
 
 ### Library chemistry and reaction definition
 
@@ -245,10 +243,10 @@ branching pathways, and multiple product formation routes.
 
 Key considerations for reaction definition:
 
-- **SMARTS validation**: Automatic checking of reaction template syntax and chemical feasibility
-- **Building block compatibility**: Verification that building blocks contain required functional groups
-- **Product prediction**: Enumeration validation to ensure expected chemical structures are generated
-- **Error handling**: Systematic identification and reporting of problematic reactions or building blocks
+- **SMARTS validation**: Automatic checking of reaction template syntax and chemical feasibility.
+- **Building block compatibility**: Verification that building blocks contain required functional groups.
+- **Product prediction**: Enumeration validation to ensure expected chemical structures are generated.
+- **Error handling**: Systematic identification and reporting of problematic reactions or building blocks.
 
 ### Quality control parameters
 
@@ -281,13 +279,13 @@ drug-likeness assessment.
 
 - Linux (Ubuntu 20.04+)
 - macOS (12.0+)
-- Windows 10/11
+- Windows 10/11 (via WSL)
 
 ### Software dependencies
 
 **Core requirements:**
 
-- Python 3.12 or higher with pip package manager
+- Python 3.11 or higher with pip package manager
 - Conda package manager (Miniconda or Anaconda)
 - R statistical computing environment (version 4.1+)
 - Git version control system
@@ -311,9 +309,6 @@ drug-likeness assessment.
 
 ### Input file preparation
 
-**Required input files:**
-
-
 **Table 2 | Input file specifications and sources**
 
 | File Type           | Format             | Description                                                 | Example Source     |
@@ -332,21 +327,21 @@ drug-likeness assessment.
 
 #### Step 1: Environment setup with Conda
 
-We recommend using Miniconda package manager to create an isolated environment ensuring proper dependency management:
+We recommend using the Miniconda package manager to create an isolated environment, ensuring proper dependency management:
 
 ```bash
 # Download and install Miniconda for your operating system
 # Follow instructions at: https://docs.anaconda.com/miniconda
 
-# Create dedicated environment
-conda create -n delt-hit python=3.12 -y
-conda activate delt-hit
+# Create a dedicated environment
+conda create -n delt-env python=3.11 -y
+conda activate delt-env
 
-# Install DELT-Hit package
-pip install git+ssh://git@github.com/DELTechnology/delt-core.git@paper
+# Install the package from GitHub
+pip install git+https://github.com/DELTechnology/delt-core.git
 
 # Verify installation
-delt-hit --help
+delt-cli --help
 ```
 
 #### Step 2: R environment configuration
@@ -368,40 +363,38 @@ BiocManager::install(c("edgeR", "limma"))
 #### Step 3: Installation verification
 
 ```bash
-# Activate environment
-conda activate delt-hit
+# Activate the conda environment
+conda activate delt-env
 
 # Test core functionality
-delt-hit init --help
+delt-cli --help
 ```
 
 ## Procedure
 
 ### Phase 1: Project initialization and configuration • TIMING 15-45 min
 
-The configuration file defines library structure, experimental design, and analysis parameters. DELT-Hit supports 
+The configuration file defines the library structure, experimental design, and analysis parameters. `delt-cli` supports 
 initialization from standardized Excel templates for user convenience.
 
+This command will create a `config.yaml` file inside a directory structure defined by the `save_dir` and `name` parameters in your Excel file (e.g., `<save_dir>/<name>/config.yaml`).
+
 ```bash
-delt-hit init --excel_path=/Users/adrianomartinelli/projects/delt/delt-core/paper/NF.xlsx
+delt-cli init --excel_path <path/to/your/library.xlsx>
 ```
 
-This command will create the `yaml` configuration file under `save_dir / name / config.yaml` as specified in the excel 
-sheet.
-
-In the next section we describe how to setup an excel file that
+In the next section, we describe how to set up an Excel file that
 contains all the relevant information to construct a config file for the analysis.
 
 #### Step 1 | Create project configuration from Excel template
 
-The execl sheet consists of four main sections that define the experiment parameters, and library structure:
+The Excel workbook consists of several sheets that define the experiment parameters and library structure.
 
-1.1 `experiment` sheet:
+**1.1 `experiment` sheet:**
 
-Create a sheet named `experiment` with the information summarized in Table 1.
+Create a sheet named `experiment` with the information summarized in Table 4.
 
-**Table 1 | `experiment` configuration sheet.** Basic experiment parameters including experiment name, file paths, and
-computational resources.
+**Table 4 | `experiment` configuration sheet.** Basic experiment parameters including experiment name, file paths, and computational resources.
 
 | Variable   | Value                                 |
 |------------|---------------------------------------|
@@ -411,20 +404,13 @@ computational resources.
 | num_cores  | 16                                    |
 
 
-1.2. `selections` sheet:
+**1.2. `selections` sheet:**
 
-Create a sheet named `selections` with the information summarized in Table 2.
-The columns S0 and S1 define the multiplexing barcodes used to identify individual selection experiments.
-The minimal required information are:
+Create a sheet named `selections` with the information summarized in Table 5.
+The columns `S0` and `S1` define the multiplexing barcodes used to identify individual selection experiments.
+The minimal required information columns are: `name`, `target`, `group`, `S0`, and `S1`.
 
-  - name
-  - target
-  - group
-  - S0
-  - S1
-
-**Table 2 | `selection` experimental design.** Multiplexing barcodes (S0, S1) identify individual selection experiments.
-Groups define statistical comparisons between protein and control selections.
+**Table 5 | `selections` experimental design.** Multiplexing barcodes (S0, S1) identify individual selection experiments. Groups define statistical comparisons between protein and control selections.
 
 | name  | operator | date      | target | group      | S0     | S1        |
 |-------|----------|-----------|--------|------------|--------|-----------|
@@ -436,33 +422,31 @@ Groups define statistical comparisons between protein and control selections.
 | CA_A2 | A.Smith  | 15-Oct-24 | -      | naive      | ACGCGG | CGCTCGATA |
 
 
-1.3 `structure` sheet:
+**1.3 `structure` sheet:**
 
-Next create a sheet named `structure` that lists the regions of your DNA constructs.
-The example below defines a construct that has two selection primers (S0, S1), two constant regions (C0, C1) and two 
-building block barcodes (B0, B1). For each of the regions you can define the maximum error rate tolerated during
+Next, create a sheet named `structure` that lists the regions of your DNA constructs.
+The example below defines a construct that has two selection primers (S0, S1), two constant regions (C0, C1), and two 
+building block barcodes (B0, B1). For each region, you can define the maximum error rate tolerated during
 adapter trimming.
 
-**Table 3 | DNA sequence structure definition.** Sequence regions with error tolerance parameters for demultiplexing.
-Selection barcodes require perfect matches while constant regions allow moderate error rates.
+**Table 6 | DNA sequence `structure` definition.** Sequence regions with error tolerance parameters for demultiplexing. Selection barcodes require perfect matches while constant regions allow moderate error rates.
 
 | name | type           | max_error_rate | indels |
 |------|----------------|----------------|--------|
 | S0   | selection      | 0              | FALSE  |
-| C0   | constant       | 1.1            | TRUE   |
+| C0   | constant       | 0.1            | TRUE   |
 | B0   | building_block | 0              | FALSE  |
-| C1   | constant       | 1.1            | TRUE   |
+| C1   | constant       | 0.1            | TRUE   |
 | B1   | building_block | 0              | FALSE  |
 | S1   | selection      | 0              | FALSE  |
 
 
-1.4 `constant` sheet:
+**1.4 `constant` sheet:**
 
-Next create a sheet named `constant` that contains all the constant regions of your DNA constructs as shown in Table 4.
-The names of the regions need to match the names defined in the `structure` sheet.
+Create a sheet named `constant` that contains all the constant regions of your DNA constructs, as shown in Table 7.
+The names of the regions must match the names defined in the `structure` sheet.
 
-
-**Table 4 | Constant DNA regions definition.** 
+**Table 7 | `constant` DNA regions definition.** 
 
 | name | codon                   |
 |------|--------------------------|
@@ -473,38 +457,34 @@ The names of the regions need to match the names defined in the `structure` shee
 
 #### Step 2 | Define chemical building blocks and reactions
 
-To complete the configuration we need to define the building blocks used in the library. 
-DELT-HIT supports any number of chemical building blocks. For each building block create a sheet named by the name
-indicated in the `selection` sheet (e.g. B0, B1, etc.).
+To complete the configuration, we need to define the building blocks used in the library. 
+`delt-cli` supports any number of chemical building blocks. For each building block cycle, create a sheet named according to the `structure` sheet (e.g., B0, B1, etc.).
 
+**2.1 Building block sheets (B0, B1, etc.):**
 
-2.1 Building block sheets (B0, B1, etc.):
+For each building block cycle, create a sheet that contains the codons for the different building blocks, as shown in 
+Table 8. For each building block, you must specify the expected codon. If you plan to enumerate the 
+library members and calculate molecular properties, you must also fill in the `smiles`, `reaction`, `reactant`, and 
+`product` columns.
 
-For each building block create a sheet that contains all the codons for the different building blocks as shown in 
-Table 4. For each building block one needs to specify the expected codon. Users that want to be able to enumerate the 
-library members and to calculate molecular properties, are required to fill in the `smiles`, `reaction`, `reactant`, and 
-`product` columns as well. 
-
-**Table 4 | Building block definition.** Chemical structures (SMILES), DNA codons, and reaction connectivity for
-library enumeration.
+**Table 8 | Building block definition (e.g., sheet `B0`).** Chemical structures (SMILES), DNA codons, and reaction connectivity for library enumeration.
 
 | smiles                 | codon  | reaction | reactant   | product   |
 |------------------------|--------|----------|------------|-----------|
 | OC(=O)C1=CC(=CN=C1)C#C | GCCTCG | CuAAC    | scaffold_1 | product_1 |
 | BrC1=NC=C(OCC#C)C=C1   | TCCGAC | CuAAC    | scaffold_1 | product_1 |
 | CNC1=CC=C(OCC#C)C=C1   | CAAGTG | CuAAC    | scaffold_1 | product_1 |
-| ...                    | ...    | ..       | ...        | ...       |
+| ...                    | ...    | ...      | ...        | ...       |
 
 
-2.2 Reactions sheet:
+**2.2 `reactions` sheet:**
 
-_Only applies to users that want to enumerate the library members_
+*This step is only required for library enumeration.*
 
-Create a sheet named `reactions` that contains all the reactions used during library synthesis as shown in Table 5.
-This table needs to contain the reactions mentioned in the `reaction` column of the building block sheets.
+Create a sheet named `reactions` that contains all the reactions used during library synthesis, as shown in Table 9.
+This table must contain the reactions mentioned in the `reaction` column of the building block sheets.
 
-**Table 5 | Reaction SMARTS templates.** Chemical transformation definitions using SMARTS notation for automated
-structure enumeration.
+**Table 9 | Reaction SMARTS templates.** Chemical transformation definitions using SMARTS notation for automated structure enumeration.
 
 | name  | smirks                                                    |
 |-------|-----------------------------------------------------------|
@@ -512,14 +492,13 @@ structure enumeration.
 | Suzuki| "[cX3:1][I].[#6:2][BX3]>>[cX3:1][#6:2]"                     |
 
 
-2.3 Compounds sheet:
+**2.3 `compounds` sheet:**
 
-_Only applies to users that want to enumerate the library members_
+*This step is only required for library enumeration.*
 
-Create a sheet named `compounds` that contains all other compounds used during library synthesis as shown in Table 6.
+Create a sheet named `compounds` that contains all other non-building-block compounds (e.g., scaffolds) used during library synthesis, as shown in Table 10.
 
-
-**Table 6 | Compounds SMILES.** Other compounds used in chemical reactions other than the building blocks.
+**Table 10 | `compounds` SMILES.** Other compounds used in chemical reactions, such as scaffolds.
 
 | name        | smiles                                        |
 |-------------|-----------------------------------------------|
@@ -536,19 +515,19 @@ Create a sheet named `compounds` that contains all other compounds used during l
 #### Step 4 | Enumerate library compounds from building blocks
 
 ```bash
-delt-hit library enumerate --config_path=/Users/adrianomartinelli/projects/delt/delt-core/paper/experiment-3/config.yaml
+delt-cli library enumerate --config_path <path/to/your/config.yaml>
 ```
 
-This process generates all possible chemical structures from building block combinations according to defined reaction
+This process generates all possible chemical structures from building block combinations according to the defined reaction
 schemes.
 
 **Expected outputs:**
 
-- `library.parquet`: Complete compound catalog with SMILES and barcode mappings
-- `reaction_graph.png`: Visual representation of synthetic scheme
+- `library.parquet`: A file containing the complete compound catalog with SMILES and barcode mappings.
+- `reaction_graph.png`: A visual representation of the synthetic scheme.
 
-**Figure 6 | Reaction graph visualization.** Automated generation of synthetic scheme diagrams showing building block
-incorporation and reaction connectivity. Nodes represent chemical intermediates, edges represent transformations.
+**Figure 1 | Reaction graph visualization.** Automated generation of synthetic scheme diagrams showing building block
+incorporation and reaction connectivity. Nodes represent chemical intermediates, and edges represent transformations.
 
 ![Reaction Graph](figures/reaction_graph.png)
 
@@ -556,10 +535,10 @@ incorporation and reaction connectivity. Nodes represent chemical intermediates,
 
 ```bash
 # ~1000 compounds/s
-delt-hit library properties --config_path=/Users/adrianomartinelli/projects/delt/delt-core/paper/experiment-3/config.yaml
+delt-cli library properties --config_path <path/to/your/config.yaml>
 ```
 
-Comprehensive molecular descriptor calculation using RDKit for drug-likeness assessment and chemical space
+This command calculates a comprehensive set of molecular descriptors using RDKit for drug-likeness assessment and chemical space
 characterization.
 
 **Computed properties include:**
@@ -569,7 +548,7 @@ characterization.
 - Structural complexity metrics
 - Pharmacophore features
 
-![**Molecular weight distribution.** Example property distribution showing typical pharmaceutical compound
+![**Figure 2 | Molecular weight distribution.** Example property distribution showing typical pharmaceutical compound
 space coverage.](figures/prop_mw.png)
 
 #### Step 6 | Generate molecular representations for machine learning
@@ -577,20 +556,20 @@ space coverage.](figures/prop_mw.png)
 ```bash
 # Morgan fingerprints for similarity analysis
 # ~600 - 1000 compounds/s
-delt-hit library represent --method=morgan --config_path=/Users/adrianomartinelli/projects/delt/delt-core/paper/experiment-3/config.yaml
+delt-cli library represent --method morgan --config_path <path/to/your/config.yaml>
 
 # BERT embeddings for deep learning applications  
 # ~600 - 1000 compounds/s
-delt-hit library represent --method=bert --config_path=/Users/adrianomartinelli/projects/delt/delt-core/paper/experiment-3/config.yaml
+delt-cli library represent --method bert --config_path <path/to/your/config.yaml>
 ```
 
-Creates standardized chemical representations compatible with scikit-learn and deep learning frameworks.
+This creates standardized chemical representations compatible with scikit-learn and deep learning frameworks.
 
 ### Phase 3: Sequence processing and demultiplexing • TIMING 30 min - 4 h
 
 #### Step 7 | Configure demultiplexing parameters
 
-Optimize sequence processing parameters based on sequencing quality and library design:
+Optimize sequence processing parameters in your `config.yaml` based on sequencing quality and library design. For example:
 
 ```yaml
 # Edit config.yaml structure section
@@ -601,7 +580,7 @@ structure:
     indels: false
   C0:
     type: constant
-    max_error_rate: 1.01   # Allow moderate errors in constant regions
+    max_error_rate: 0.1   # Allow moderate errors in constant regions
     indels: true
   B0:
     type: building_block
@@ -611,58 +590,52 @@ structure:
 
 #### Step 8 | Create & Execute sequence demultiplexing
 
-Cutadapt is used to perform demultiplexing of the sequencing files. The following command prepares the cutadapt input 
-files and bash script for execution that users can adapt to their specific use cases if needed.
+`delt-cli` uses Cutadapt to perform demultiplexing. The following command prepares the Cutadapt input 
+files and a shell script for execution, which users can adapt for specific use cases if needed.
 
 The script performs the following steps:
-
-1. **Adapter detection and trimming**: Removal of sequencing adapters and primers
-2. **Barcode extraction**: Identification of building block and selection barcodes
-3. **Count aggregation**: Tabulation of reads per compound per selection
+1.  Adapter detection and trimming
+2.  Barcode extraction
+3.  Count aggregation
 
 ```bash
-delt-hit demultiplex prepare --config_path=/Users/adrianomartinelli/projects/delt/delt-core/paper/experiment-3/config.yaml
-# run demultiplexing script
-chmod u+x /Users/adrianomartinelli/projects/delt/delt-core/paper/experiment-3/demultiplex/cutadapt_input_files/demultiplex.sh
-/Users/adrianomartinelli/projects/delt/delt-core/paper/experiment-3/demultiplex/cutadapt_input_files/demultiplex.sh
+# Prepare the demultiplexing script and input files
+delt-cli demultiplex prepare --config_path <path/to/your/config.yaml>
+
+# The script is created in the demultiplex/cutadapt_input_files/ subdirectory
+# Make it executable and run it
+chmod u+x <path/to/your/experiment>/demultiplex/cutadapt_input_files/demultiplex.sh
+<path/to/your/experiment>/demultiplex/cutadapt_input_files/demultiplex.sh
 ```
 
 #### Step 9 | Generate quality control reports and visualizations
 
-In the next step we assess the quality of the demultiplexing. This includes
-
-- Barcode recovery statistics
-- Error rate distributions
+Next, assess the quality of the demultiplexing. This includes barcode recovery statistics and error rate distributions.
 
 ```bash
-# Comprehensive processing statistics
-delt-hit demultiplex report --config_path=/Users/adrianomartinelli/projects/delt/delt-core/paper/experiment-3/config.yaml
+# Generate a comprehensive processing statistics report
+delt-cli demultiplex report --config_path <path/to/your/config.yaml>
 
-# Quality control visualizations
-delt-hit demultiplex qc --config_path=/Users/adrianomartinelli/projects/delt/delt-core/paper/experiment-3/config.yaml
+# Generate quality control visualizations
+delt-cli demultiplex qc --config_path <path/to/your/config.yaml>
 ```
 
-**Figure 8 | Demultiplexing quality control report.** Representative quality metrics showing successful sequence
+**Figure 3 | Demultiplexing quality control report.** Representative quality metrics showing successful sequence
 processing with >75% read retention and even barcode distribution.
 
 ![QC Report](figures/report.png)
 
 ### Phase 4: Statistical analysis and hit identification • TIMING 10-30 min
 
-Statistical comparison groups are defined based on experimental design, typically comparing protein selections against
+Statistical comparison groups are defined in the `config.yaml` file based on the experimental design, typically comparing protein selections against
 no-protein controls.
 
-#### Step 11 | Perform enrichment analysis with multiple methods
+#### Step 10 | Define analysis groups
 
-To perform the enrichment analysis the user needs to define the selections to compare. Along with the `group` information
-provided in the `selections` section of the configuration the analysis scripts will produce `R` scripts to compute 
-enrichment statistics. Currently DELT-Hit supports two statistical approaches: edgeR and a simple counts method.
-While edgeR - a well established method in the single-cell community to detect differentialy expressed genes - is more 
-sensitive it requires replicates of the same selection condition. In contrast the simple counts methods can be used with
-just a single selection against protein and no-protein controls.
+To perform enrichment analysis, you must first define groups of selections to compare. This is done by adding an `analyses` section to your `config.yaml`. The `group` information provided in the `selections` sheet will be used by the analysis scripts to perform statistical comparisons (e.g., `protein` vs. `no_protein`).
 
 ```yaml
-# Add the `analyses` section in the config.yaml
+# Add the `analyses` section in config.yaml
 analyses:
   analysis-1:
     selections:
@@ -672,118 +645,112 @@ analyses:
       - AG24_10
       - AG24_11
       - AG24_12
-
   analysis-2:
     selections:
-      - AG24_1
-      - AG24_2
-      - AG24_3
       - AG24_19
       - AG24_20
       - AG24_21
 ```
 
+#### Step 11 | Perform enrichment analysis with multiple methods
+
+`delt-cli` can generate analysis scripts for different statistical methods. Currently, it supports `edgeR` and a simple `counts` method. While edgeR—a well-established method in genomics for detecting differentially expressed genes—is more sensitive, it requires replicates of the same selection condition. In contrast, the `counts` method can be used with just a single selection against protein and no-protein controls.
+
 **Statistical approaches:**
 
-- **edgeR method**: Sophisticated RNA-seq-derived statistical model with empirical Bayes shrinkage
-- **Counts method**: Simple fold-change calculation suitable for initial screening
+- **`edgeR` method**: A sophisticated statistical model derived from RNA-seq analysis using empirical Bayes shrinkage.
+- **`counts` method**: A simple fold-change calculation suitable for initial screening.
 
 Generate the R scripts for the statistical analysis by running:
 
 ```bash
-delt-hit analyse enrichment \
---config_path=/Users/adrianomartinelli/projects/delt/delt-core/paper/experiment-3/config.yaml \
---name=analysis-1 \
---method=counts
+# Generate and run the 'counts' method script
+delt-cli analyse enrichment \
+--config_path <path/to/your/config.yaml> \
+--name analysis-1 \
+--method counts
 
-# run the generated R script
-Rscript --vanilla /Users/adrianomartinelli/projects/delt/delt-core/paper/experiment-3/analyses/analysis-1/counts/enrichment_counts.R
+Rscript --vanilla <path/to/your/experiment>/analyses/analysis-1/counts/enrichment_counts.R
 
-delt-hit analyse enrichment \
---config_path=/Users/adrianomartinelli/projects/delt/delt-core/paper/experiment-3/config.yaml \
---name=analysis-1 \
---method=edgeR
+# Generate and run the 'edgeR' method script
+delt-cli analyse enrichment \
+--config_path <path/to/your/config.yaml> \
+--name analysis-1 \
+--method edgeR
 
-# run the generated R script
-Rscript --vanilla /Users/adrianomartinelli/projects/delt/delt-core/paper/experiment-3/analyses/analysis-1/edgeR/enrichment_edgeR.R
-
+Rscript --vanilla <path/to/your/experiment>/analyses/analysis-1/edgeR/enrichment_edgeR.R
 ```
-
 
 #### Step 12 | Rank hits and generate final output tables
 
-Results are automatically ranked by statistical significance and fold-change metrics:
+Results are automatically ranked by statistical significance and fold-change metrics.
 
 **Output files:**
-- `stats.csv`: Complete hit list with statistics and chemical properties
-- `hits.csv`: Statistical significance compounds.
-- additional, method specific files like normalized counts.
+- `stats.csv`: Complete hit list with statistics and chemical properties.
+- `hits.csv`: Statistically significant compounds.
+- Additional method-specific files, such as normalized counts.
 
-
-**Table 3 | Example hit ranking output**
+**Table 11 | Example hit ranking output**
 
 | code_1 | code_2 | LogFC | FDR  | LogP |
 |--------|--------|-------|------|------|
 | 24     | 427    | 4.2   | 1e-8 | 2.1  |
 | 104    | 205    | 3.8   | 2e-7 | 1.9  |
 
-**Figure 9 | Hit ranking table legend.** LogFC: log2 fold-change vs controls; FDR: false discovery rate corrected
-p-value; LogP: partition coefficient;
+*LogFC: log2 fold-change vs controls; FDR: false discovery rate corrected p-value; LogP: partition coefficient.*
 
 ### Phase 5: Data visualization and interpretation • TIMING 15-60 min
 
 #### Step 13 | Launch interactive analysis dashboard
 
-In the last step we can visualize the raw counts from the demultiplexing step. For this the user needs to provide the
-path to the counts file generated during demultiplexing along with the path to the configuration file.
+Finally, you can visualize the raw counts from the demultiplexing step. Provide the path to the configuration file and a specific counts file generated during demultiplexing.
 
 ```bash
-delt-hit dashboard --config_path=/Users/adrianomartinelli/projects/delt/delt-core/paper/experiment-3/config.yaml \
-                   --counts_path=/Users/adrianomartinelli/projects/delt/delt-core/paper/experiment-3/selections/AG24_10/counts.txt
+delt-cli dashboard --config_path <path/to/your/config.yaml> \
+                   --counts_path <path/to/your/experiment>/selections/AG24_10/counts.txt
 ```
 
-Opens web-based interface (typically http://localhost:8050) providing:
+This command opens a web-based interface (typically at http://localhost:8050) providing:
 
-- Selection and experiment parameters
-- Hit exploration with extensive filter capabilities
+- Selection and experiment parameters.
+- Interactive hit exploration with extensive filtering capabilities.
 
-
-**Figure 9 | Dashboard visualization.**
+**Figure 4 | Dashboard visualization.**
 
 ![Dashboard](figures/dashboard.png)
 
 
 ## Troubleshooting
 
-**Table 4 | Common issues and solutions**
+**Table 12 | Common issues and solutions**
 
 | Problem                              | Possible Cause                                | Solution                                                       |
 |--------------------------------------|-----------------------------------------------|----------------------------------------------------------------|
-| Low demultiplexing efficiency (<50%) | High error rates, incorrect barcode sequences | Increase max_error_rate parameters; validate barcode sequences |
-| Memory errors during enumeration     | Large library size, insufficient RAM          | Reduce library size or use high-memory system (>32 GB)         |
-| R integration failures               | Missing R packages, PATH issues               | Reinstall R packages; verify R installation path               |
-| Empty hit lists                      | Stringent statistical thresholds              | Adjust FDR cutoffs; check replicate consistency                |
-| Chemical structure errors            | Invalid SMILES, incorrect reaction SMARTS     | Validate building block structures; check reaction definitions |
+| Low demultiplexing efficiency (<50%) | High error rates, incorrect barcode sequences | Increase `max_error_rate` parameters; validate barcode sequences. |
+| Memory errors during enumeration     | Large library size, insufficient RAM          | Reduce library size or use a high-memory system (>32 GB).         |
+| R integration failures               | Missing R packages, PATH issues               | Reinstall R packages; verify R installation path.               |
+| Empty hit lists                      | Stringent statistical thresholds              | Adjust FDR cutoffs; check replicate consistency.                |
+| Chemical structure errors            | Invalid SMILES, incorrect reaction SMARTS     | Validate building block structures; check reaction definitions. |
 
 **Performance optimization guidelines:**
 
-- **Small libraries** (<1M compounds): 8+ GB RAM recommended  
-- **Medium libraries** (1-50M compounds): 8+ GB RAM recommended  
-- **Large libraries** (>50M compounds): 16+ GB RAM
-- **Very large libraries** (>500M compounds): High-performance computing recommended
+- **Small libraries** (<1M compounds): 8+ GB RAM recommended.
+- **Medium libraries** (1-50M compounds): 16+ GB RAM recommended.
+- **Large libraries** (>50M compounds): 32+ GB RAM recommended.
+- **Very large libraries** (>500M compounds): High-performance computing recommended.
 
 **Quality control thresholds:**
 
-- **Demultiplexing efficiency**: >70% expected for high-quality data
-- **Library coverage**: 10-90% depending on selection stringency
-- **Replicate correlation**: R² >0.7 between biological replicates
-- **Statistical power**: >100 reads per compound for reliable statistics
+- **Demultiplexing efficiency**: >70% expected for high-quality data.
+- **Library coverage**: 10-90% depending on selection stringency.
+- **Replicate correlation**: R² > 0.7 between biological replicates.
+- **Statistical power**: >100 reads per compound for reliable statistics.
 
 ## Timing
 
-Protocol execution times depend on dataset characteristics and computational resources:
+Protocol execution times depend on dataset characteristics and computational resources.
 
-**Table 5 | Timing estimates for different dataset sizes**
+**Table 13 | Timing estimates for different dataset sizes**
 
 | Analysis Phase          | Small Dataset¹   | Medium Dataset² | Large Dataset³ |
 |-------------------------|------------------|-----------------|----------------|
@@ -804,45 +771,65 @@ Protocol execution times depend on dataset characteristics and computational res
 
 ### Output file structure
 
-DELT-Hit generates a comprehensive, standardized output hierarchy:
+`delt-cli` generates a comprehensive, standardized output hierarchy for each experiment:
 
 ```
-# project_name/
-#    config.yaml  # Master configuration
-#    library.parquet  # chemical compounds with properties
-#    ...
+<your_experiment_name>/
+├── config.yaml
+├── library.parquet
+├── reaction_graph.png
+├── demultiplex/
+│   ├── cutadapt_input_files/
+│   └── cutadapt_output_files/
+├── properties/
+│   ├── properties.parquet
+│   └── ... (property distribution plots)
+├── representations/
+│   ├── morgan.npz
+│   └── ...
+├── qc/
+│   ├── report.txt
+│   └── ... (QC plots)
+├── selections/
+│   ├── <selection_1_name>/
+│   │   └── counts.txt
+│   └── ...
+└── analyses/
+    └── <analysis_1_name>/
+        ├── data.csv
+        ├── samples.csv
+        └── ... (enrichment results)
 ```
 
 ### Chemical library characterization
 
 **Library enumeration generates:**
 
-- **Complete structure catalog**: All possible compounds with canonical SMILES representation
-- **Molecular property distributions**: Comprehensive descriptor analysis for drug-likeness assessment  
-- **Chemical space visualization**: Principal component analysis and diversity metrics
-- **Reaction validation**: Automated checking of synthetic feasibility and structure quality
+- **Complete structure catalog**: All possible compounds with canonical SMILES representation.
+- **Molecular property distributions**: Comprehensive descriptor analysis for drug-likeness assessment.
+- **Chemical space visualization**: Principal component analysis and diversity metrics.
+- **Reaction validation**: Automated checking of synthetic feasibility and structure quality.
 
 **Expected library characteristics:**
 
-For a representative 2-cycle DEL with 1000 building blocks per position:
+For a representative 2-cycle DEL with 1,000 building blocks per position:
 
-- **Library size**: ~1 million unique structures
-- **Molecular weight range**: 200-800 Da (pharmaceutically relevant)
-- **Chemical diversity**: Tanimoto similarity <0.4 between randomly selected pairs
-- **Drug-likeness**: 70-90% compounds passing Lipinski's Rule of Five
-- **Structural complexity**: Mean heavy atom count 15-35 atoms
+- **Library size**: ~1 million unique structures.
+- **Molecular weight range**: 200-800 Da (pharmaceutically relevant).
+- **Chemical diversity**: Tanimoto similarity <0.4 between randomly selected pairs.
+- **Drug-likeness**: 70-90% of compounds passing Lipinski's Rule of Five.
+- **Structural complexity**: Mean heavy atom count of 15-35 atoms.
 
 ### Sequence processing performance
 
 **Successful demultiplexing produces:**
 
-- **Read retention**: 60-85% of input reads assigned to valid barcode combinations
-- **Library coverage**: 10-90% of theoretical compounds detected depending on selection stringency
-- **Error correction**: <5% sequencing errors per barcode position after quality filtering
-- **Multiplexing efficiency**: >95% correct assignment of reads to selection conditions
+- **Read retention**: 60-85% of input reads assigned to valid barcode combinations.
+- **Library coverage**: 10-90% of theoretical compounds detected, depending on selection stringency.
+- **Error correction**: <5% sequencing errors per barcode position after quality filtering.
+- **Multiplexing efficiency**: >95% correct assignment of reads to selection conditions.
 
-
-**Table 6 | Expected demultiplexing performance metrics**
+**Table 14 | Expected demultiplexing performance metrics**
 
 | Metric                  | Excellent | Good   | Acceptable | Poor |
 |-------------------------|-----------|--------|------------|------|
@@ -851,28 +838,26 @@ For a representative 2-cycle DEL with 1000 building blocks per position:
 | Library coverage        | >50%      | 30-50% | 10-30%     | <10% |
 | Error rate per position | <2%       | 2-5%   | 5-10%      | >10% |
 
-**Figure 10 | Demultiplexing performance metrics legend.** Quality thresholds for systematic evaluation of sequence
-processing success. Poor performance typically indicates technical issues requiring troubleshooting.
+*Poor performance typically indicates technical issues requiring troubleshooting.*
 
 ### Statistical analysis outputs
 
 **Hit identification provides:**
 
 - **Statistical significance assessment**: False discovery rate controlled p-values using established RNA-seq
-methodologies
-- **Effect size quantification**: Log2 fold-change measurements with confidence intervals
-- **Multiple comparison correction**: Benjamini-Hochberg FDR control across all library members
-- **Quality validation**: Replicate consistency analysis and batch effect assessment
+methodologies.
+- **Effect size quantification**: Log2 fold-change measurements with confidence intervals.
+- **Multiple comparison correction**: Benjamini-Hochberg FDR control across all library members.
+- **Quality validation**: Replicate consistency analysis and batch effect assessment.
 
 **Expected enrichment patterns:**
 
-- **Hit rates**: 0.1-2% of library members showing significant enrichment (FDR < 0.05)
-- **Dynamic range**: 2-1000 fold enrichment over negative controls
-- **Replicate consistency**: Pearson correlation R > 0.7 between biological replicates
-- **Statistical power**: Reliable detection of >2-fold enrichment with >100 reads per compound
+- **Hit rates**: 0.1-2% of library members showing significant enrichment (FDR < 0.05).
+- **Dynamic range**: 2-1000 fold enrichment over negative controls.
+- **Replicate consistency**: Pearson correlation R > 0.7 between biological replicates.
+- **Statistical power**: Reliable detection of >2-fold enrichment with >100 reads per compound.
 
-
-**Table 7 | Representative statistical analysis results**
+**Table 15 | Representative statistical analysis results**
 
 | Analysis Type     | Hits Identified¹ | Median LogFC² | FDR Threshold | Replicate Correlation |
 |-------------------|------------------|---------------|---------------|-----------------------|
@@ -880,8 +865,8 @@ methodologies
 | PPI disruption    | 89 (0.09%)       | 4.1           | 0.01          | 0.79                  |
 | Membrane receptor | 234 (0.23%)      | 2.8           | 0.05          | 0.85                  |
 
-¹Number and percentage of library members with significant enrichment
-²Log2 fold-change for significantly enriched compounds
+¹Number and percentage of library members with significant enrichment.
+²Log2 fold-change for significantly enriched compounds.
 
 ### Integration capabilities and downstream applications
 
@@ -889,49 +874,49 @@ methodologies
 
 **Machine learning workflows:**
 
-- **Scikit-learn compatibility**: Standardized feature matrices for classification and regression
-- **Deep learning frameworks**: TensorFlow and PyTorch compatible data loaders
-- **Chemical informatics**: RDKit integration for advanced molecular modeling
-- **Statistical analysis**: Direct export to R for specialized statistical modeling
+- **Scikit-learn compatibility**: Standardized feature matrices for classification and regression.
+- **Deep learning frameworks**: TensorFlow and PyTorch compatible data loaders.
+- **Chemical informatics**: RDKit integration for advanced molecular modeling.
+- **Statistical analysis**: Direct export to R for specialized statistical modeling.
 
 **Cheminformatics pipelines:**
 
-- **Structure-activity relationships**: Automated SAR analysis with statistical validation  
-- **Virtual screening**: Chemical similarity search and pharmacophore modeling
-- **Lead optimization**: Multi-parameter optimization with ADMET prediction
-- **Chemical space analysis**: Principal component analysis and clustering methods
+- **Structure-activity relationships**: Automated SAR analysis with statistical validation.
+- **Virtual screening**: Chemical similarity search and pharmacophore modeling.
+- **Lead optimization**: Multi-parameter optimization with ADMET prediction.
+- **Chemical space analysis**: Principal component analysis and clustering methods.
 
 ### Quality assurance and validation
 
 **Built-in validation features:**
 
-- **Chemical structure verification**: Automated detection of invalid SMILES and stereochemistry issues
-- **Reaction template validation**: Verification of SMARTS syntax and chemical feasibility  
-- **Statistical model diagnostics**: Residual analysis and model assumption checking
-- **Cross-platform reproducibility**: Consistent results across different computing environments
+- **Chemical structure verification**: Automated detection of invalid SMILES and stereochemistry issues.
+- **Reaction template validation**: Verification of SMARTS syntax and chemical feasibility.
+- **Statistical model diagnostics**: Residual analysis and model assumption checking.
+- **Cross-platform reproducibility**: Consistent results across different computing environments.
 
 **Expected validation outcomes:**
 
-- **Structure enumeration**: >99.5% valid chemical structures generated
-- **Reaction template accuracy**: Automated detection of problematic transformations
-- **Statistical model fit**: Residual plots showing appropriate dispersion characteristics
-- **Reproducibility**: <5% coefficient of variation between independent analyses
+- **Structure enumeration**: >99.5% valid chemical structures generated.
+- **Reaction template accuracy**: Automated detection of problematic transformations.
+- **Statistical model fit**: Residual plots showing appropriate dispersion characteristics.
+- **Reproducibility**: <5% coefficient of variation between independent analyses.
 
 ## Data and code availability
 
 ### Software access and documentation
 
-**DELT-Hit software is freely available under MIT License:**
+**The `delt-core` software is freely available under the MIT License:**
 
-- **Primary repository**: https://github.com/DELTechnology/delt-hit
-- **Documentation**: Comprehensive user guides, API reference, and tutorials
-- **Issue tracking**: Community support and bug reporting system
-- **Continuous integration**: Automated testing across multiple platforms
+- **Primary repository**: https://github.com/DELTechnology/delt-core
+- **Documentation**: Comprehensive user guides, API reference, and tutorials are available in the repository's `README.md` and `paper/` directory.
+- **Issue tracking**: Community support and bug reporting via GitHub Issues.
+- **Continuous integration**: Automated testing across multiple platforms.
 
 ## Author contributions
 
 A.M. conceived the project, designed the software architecture, and implemented core algorithms in collaboration with G.H.
-A.L. created and maintained the configuration files. A.G. performed selection experiments and help performed the results interpretation.
+A.L. created and maintained the configuration files. A.G. performed selection experiments and helped perform the results interpretation.
 J.S. provided scientific
 oversight. All authors contributed to manuscript preparation and revision.
 
