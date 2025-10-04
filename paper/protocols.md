@@ -655,7 +655,11 @@ no-protein controls.
 #### Step 11 | Perform enrichment analysis with multiple methods
 
 To perform the enrichment analysis the user needs to define the selections to compare. Along with the `group` information
-provided in the selections section of the configuration the analysis scripts well be produced.
+provided in the `selections` section of the configuration the analysis scripts will produce `R` scripts to compute 
+enrichment statistics. Currently DELT-Hit supports two statistical approaches: edgeR and a simple counts method.
+While edgeR - a well established method in the single-cell community to detect differentialy expressed genes - is more 
+sensitive it requires replicates of the same selection condition. In contrast the simple counts methods can be used with
+just a single selection against protein and no-protein controls.
 
 ```yaml
 # Add the `analyses` section in the config.yaml
@@ -729,6 +733,9 @@ p-value; LogP: partition coefficient;
 ### Phase 5: Data visualization and interpretation • TIMING 15-60 min
 
 #### Step 13 | Launch interactive analysis dashboard
+
+In the last step we can visualize the raw counts from the demultiplexing step. For this the user needs to provide the
+path to the counts file generated during demultiplexing along with the path to the configuration file.
 
 ```bash
 delt-hit dashboard --config_path=/Users/adrianomartinelli/projects/delt/delt-core/paper/experiment-3/config.yaml \
