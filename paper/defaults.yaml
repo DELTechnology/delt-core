@@ -1,6 +1,6 @@
 from: gfm
 standalone: true
-highlight-style: pygments
+highlight-style: breezedark  # pygments, tango, espresso, zenburn, kate, monochrome, breezedark, haddock
 
 pdf-engine: xelatex
 variables:

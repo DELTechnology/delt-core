@@ -13,5 +13,5 @@ pandoc protocols.md -o protocols.docx
 pandoc protocols.md -o protocols.pdf \
   -V geometry:margin=1in
 
-pandoc --defaults=defaults.yaml protocols.md -o protocols.pdf
-pandoc --defaults=defaults.yaml protocols.md -t docx -o protocols.docx
+pandoc --defaults=defaults.yaml protocols.md -o protocols.pdf -V geometry:margin=1in
+pandoc --defaults=defaults.yaml protocols.md -t docx -o protocols.docx -V geometry:margin=1in

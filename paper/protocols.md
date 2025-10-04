@@ -246,6 +246,7 @@ DELT-Hit monitors comprehensive quality metrics throughout the analysis workflow
 | NF-selection-campaign.fastq.gz | https://figshare.com/ndownloader/files/58345816 | Representative dual display screening data    |
 | NF-selection-campaign.xlsx     | https://figshare.com/ndownloader/files/58345864 | Complete library and experimental definitions |
 
+
 ### Software installation
 
 The following installation procedure needs to be performed once before running the DELT-Hit protocol. All subsequent analyses will use this same environment.
