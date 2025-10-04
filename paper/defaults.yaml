@@ -1,0 +1,7 @@
+from: gfm
+standalone: true
+highlight-style: pygments
+
+pdf-engine: xelatex
+variables:
+  monofont: "Fira Code"
