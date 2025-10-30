@@ -62,7 +62,7 @@ readr::write_csv(stats, file.path(args$save_dir, "stats.csv"))
 
 stats |>
   dplyr::arrange(dplyr::desc(enrichment)) |>
-  dplyr::slice(1:100) |>
+  dplyr::slice(1:500) |>
   readr::write_csv(file.path(args$save_dir, "hits.csv"))
 
 # stats |>
