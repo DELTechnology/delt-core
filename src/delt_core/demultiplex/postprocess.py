@@ -5,9 +5,9 @@ from pathlib import Path
 import pandas as pd
 from tqdm import tqdm
 
-from .preprocess import get_selections
-from .utils import hash_dict
-from .validation import Config
+# from .preprocess import get_selections
+# from ..utils import hash_dict
+# from .validation import Config
 
 
 def get_selection_ids(
@@ -46,42 +46,38 @@ def extract_ids(line: str):
     return {'selection_ids': selection_ids, 'barcodes': barcodes}
 
 
-def save_counts(
-        counts: dict,
-        output_dir: Path,
-        config: dict,
-) -> None:
-    if not counts:
-        return
-    hash_value = hash_dict(config['Structure'])
+def save_counts(counts: dict, output_dir: Path, ids_to_name: dict = None) -> None:
+
     num_codes = len(list(list(counts.values())[0].keys())[0])
-    columns = [f'Code{i}' for i in range(1, num_codes + 1)]
-    columns.insert(0, 'Count')
-    
-    for selection_id, count in tqdm(counts.items(), ncols=100):
-        count = [(j, *i) for i, j in zip(count.keys(), count.values())]
+    columns = [f'code_{i}' for i in range(1, num_codes + 1)] + ['count']
+
+    for selection_ids, count in tqdm(counts.items(), ncols=100):
+        count = [(*k, v) for k, v in count.items()]
         df = pd.DataFrame.from_records(count, columns=columns)
         df = df.astype(int)
-        df.sort_values(columns[1:], inplace=True)
-        selection_dir = output_dir / f'selection-{selection_id}'
+        df.sort_values(columns[:2], inplace=True)
+        # df.sort_values('count', inplace=True, ascending=False)
+
+        if ids_to_name is None:
+            name = '-'.join(map(str, selection_ids))
+        else:
+            name = ids_to_name[selection_ids]
+        selection_dir = output_dir / name
         selection_dir.mkdir(parents=True, exist_ok=True)
-        output_file = selection_dir / f'{hash_value}.txt'
+        output_file = selection_dir / f'counts.txt'
         df.to_csv(output_file, index=False, sep='\t')
-        Config(**config).write_yaml(output_file)
 
 
-def compute_counts(
-        *,
-        config: dict,
-        input_file: Path,
-        output_dir: Path,
-        num_reads: int,
-) -> None:
-    with gzip.open(input_file, 'rt') as f:
+def get_counts(*, input_path: Path, num_reads: int) -> dict:
+    with gzip.open(input_path, 'rt') as f:
         counts = defaultdict(lambda: defaultdict(int))
         for line in tqdm(f, total=num_reads, ncols=100):
             ids = extract_ids(line)
             counts[ids['selection_ids']][ids['barcodes']] += 1
+    return counts
+
+def compute_counts(*, config: dict, input_path: Path, output_dir: Path, num_reads: int) -> None:
+    counts = get_counts(input_path=input_path, num_reads=num_reads)
 
     list_of_selection_primer_ids = list(counts.keys())
     selection_ids = get_selection_ids(list_of_selection_primer_ids, config)

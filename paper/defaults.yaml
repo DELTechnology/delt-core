@@ -1,0 +1,7 @@
+from: gfm
+standalone: true
+highlight-style: breezedark  # pygments, tango, espresso, zenburn, kate, monochrome, breezedark, haddock
+
+pdf-engine: xelatex
+variables:
+  monofont: "Fira Code"

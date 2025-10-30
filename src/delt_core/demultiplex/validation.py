@@ -3,23 +3,22 @@ from pathlib import Path
 from typing import Optional
 
 import pandas as pd
-from pydantic import BaseModel, computed_field, ValidationError
+from pydantic import BaseModel, ValidationError
 import yaml
 
-from .utils import read_yaml, get_experiment_name
+from ..utils import get_experiment_name, read_yaml
 
 
 class Region(BaseModel):
     name: str
+    index: int
     codons: list[str]
     max_error_rate: float
     indels: int
-    position_in_construct: int = None
 
-    @computed_field
     @property
-    def region_id(self) -> str:
-        return f'{self.position_in_construct}-{self.name}'
+    def id(self):
+        return f'{self.index}-{self.name}'
 
 
 class SelectionFile(BaseModel):
@@ -92,6 +91,7 @@ def init_config(
         selection_file: str = 'selections/selection.xlsx',
         fastq_file: str = 'fastq_files/input.fastq.gz',
         library: str = 'libraries/library.xlsx',
+        errors: dict[str, float] | None = None,
         simulation: dict = None,
 ) -> None:
     experiment_name = get_experiment_name(experiment_name)
@@ -107,11 +107,12 @@ def init_config(
         },
         'Structure': {},
     }
+    errors = errors or {}
     max_error_rate = 0.0
     indels = 0
     for region in structure:
         config['Structure'][region] = {}
-        config['Structure'][region]['MaxErrorRate'] = max_error_rate
+        config['Structure'][region]['MaxErrorRate'] = errors.get(region, max_error_rate)
         config['Structure'][region]['Indels'] = indels
     if simulation:
         config['Simulation'] = simulation

@@ -5,9 +5,7 @@ from matplotlib import pyplot as plt
 import pandas as pd
 
 
-def get_stats(
-        experiment_path: Path,
-) -> list:
+def get_stats(experiment_path: Path) -> list:
     items = []
     report = json.load(experiment_path.open('r'))
     stats = report['adapters_read1']
@@ -26,18 +24,19 @@ def get_stats(
     return items
 
 
-def plot_hits(
-        experiment_dir: Path,
-        output_dir: Path,
-) -> None:
+def plot_hits(output_dir: Path, save_dir: Path) -> None:
     stats = []
-    report_paths = (experiment_dir / 'cutadapt_output_files').glob('*.cutadapt.json')
+    report_paths = sorted(output_dir.glob('*.cutadapt.json'))
     for report_path in report_paths:
         stats += [*get_stats(report_path)]
     df = pd.DataFrame(stats)
 
     for grp_name, grp_dat in df.groupby('region_id'):
         pdat = pd.concat(grp_dat['error_counts'].tolist())
+
+        pdat = pdat.convert_dtypes()
+        pdat.to_parquet(save_dir / f'hits_{grp_name}.parquet', engine='pyarrow')
+
         pdat = pdat[['index', 'number_of_errors', 'error_counts']] \
             .groupby(['index', 'number_of_errors']) \
             .agg('sum') \
@@ -65,5 +64,5 @@ def plot_hits(
         for ax in axs:
             ax.set_xticklabels([])
         fig.tight_layout()
-        fig.savefig(output_dir / f'hits_{grp_name}.pdf')
+        fig.savefig(save_dir / f'hits_{grp_name}.pdf')
 

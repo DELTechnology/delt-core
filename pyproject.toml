@@ -10,7 +10,7 @@ authors = [
 ]
 readme = "README.md"
 # due to how PEP 440 defines version matching, prefer [incl, excl) definitions like below:
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 dependencies = [
     "click",
     "cutadapt",
@@ -26,8 +26,15 @@ dependencies = [
     "seaborn",
     "tqdm",
     "pyaml",
+    "jsonargparse",
+    "networkx",
+    "loguru",
+    "rich",
+    "pyarrow",
+    "scipy",
+    "dash"
 ]
-version = "0.0.1"  # refactor to dynamic with setuptools_scm
+version = "0.0.1"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
@@ -35,7 +42,7 @@ classifiers = [
 ]
 
 [project.scripts]
-delt-cli = "delt_core.cli.main:cli"
+delt-hit = "delt_core.cli.main:cli"
 
 [project.urls]
 repository = "https://github.com/DELTechnology/delt-core"
@@ -54,7 +61,7 @@ dev = [
 ]
 
 [tool.black]
-line-length = 88
+line-length = 120
 skip-string-normalization = false
 
 [tool.isort]
@@ -63,7 +70,7 @@ include_trailing_comma = true
 force_grid_wrap = 0
 use_parentheses = true
 ensure_newline_before_comments = true
-line_length = 88
+line_length = 120
 force_to_top = []
 
 [tool.mypy]

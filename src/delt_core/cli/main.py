@@ -1,27 +1,31 @@
-import click
+from jsonargparse import CLI
 
-from . import compute as c
-from . import demultiplex as d
-from . import init as i
-from . import normalize as n
-from . import quality_control as q
-from . import simulate as s
-from . import visualize as v
+from delt_core.cli.init import init
+from delt_core.cli.demultiplex.api import Demultiplex
+from delt_core.cli.analyse.api import Analyse
+from delt_core.cli.library.api import Library
+from delt_core.cli.dashboard.api import dashboard
 
-@click.group()
-def cli():
-    pass
+def cli() -> None:
+    """
+    Entry point for the delt-core CLI.
 
+    This creates a two-level command tree:
+      delt-core <group> <method> [--args]
+    where <group> is one of the keys below (demultiplex, assembly),
+    and <method> is any public method on that class (init, run, ...).
+    """
+    CLI(
+        {
+            "init": init,
+            "library": Library,
+            "demultiplex": Demultiplex,
+            "analyse": Analyse,
+            "dashboard": dashboard,
+        },
+        prog="delt-core",
+        description="DEL-T core toolkit",
+    )
 
-cli.add_command(c.compute)
-cli.add_command(d.demultiplex)
-cli.add_command(i.init)
-cli.add_command(n.normalize)
-cli.add_command(q.qc)
-cli.add_command(s.simulate)
-cli.add_command(v.viz)
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     cli()
-

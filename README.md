@@ -1,188 +1,214 @@
-# Package `delt-core`
-Core functionalities to work with DNA-encoded chemical libraries.
+# 🧬 `delt-core`
+> Core functionalities to work with DNA-encoded chemical libraries.
 
+## 🚀 Installation
 
-## Software requirements and installation
+This guide provides instructions for setting up `delt-core` for both regular users and developers.
 
-Download Miniconda (select the installer that matches your operating system): https://docs.anaconda.com/miniconda. For macOS users: Choose the `pkg` installer, if you prefer a standard graphical installation process. If you are comfortable using the terminal, you can also use the `bash` installer. After installation, open the terminal and verify the installation by typing `conda --version`.
+### Prerequisites
 
-Use the following command to create a new environment called *del*: `conda create -n del` (type `y` and press **Enter** to proceed). You can list all your environments by typing `conda env list`. Activate the environment by typing `conda activate del`. The `delt-core` package will be installed only within the currently activated environment. **This also means that whenever you want to work with the** `delt-core` **package, you need to activate the environment first.** When an environment is activated, the name of the environment usually appears in parentheses at the beginning of the command prompt.
+Before you begin, make sure you have the following installed:
 
-Generate a new SSH key by typing `ssh-keygen -t ed25519 -C "your_email@example.com"` in the terminal (enter your email address). When you're prompted to "Enter file in which to save the key", you can press **Enter** to accept the default file location. Start the ssh-agent by typing `eval "$(ssh-agent -s)"` and add your SSH private key to the ssh-agent by typing `ssh-add ~/.ssh/id_ed25519`. Copy the SSH public key to your clipboard by typing `pbcopy < ~/.ssh/id_ed25519.pub`. Go to GitHub, click on your profile picture (in the upper right corner), then click **Settings**. Go to **SSH and GPG keys** (in the sidebar) and click **New SSH key**. Add a title, paste the key in the corresponding field, and click **Add SSH key**.
+#### 1. Conda
+We recommend using the [Miniconda](https://docs.anaconda.com/miniconda) package manager to create an isolated environment for this project. This ensures that all dependencies are managed correctly.
+- [Download and install Miniconda](https://docs.anaconda.com/miniconda#latest-miniconda-installer-links) for your operating system.
+- After installation, you should be able to use the `conda` command in your terminal.
 
-Go to the repository on GitHub: https://github.com/DELTechnology/delt-core. Click the **Code** button, select **SSH**, and copy the URL to the clipboard. In the terminal, navigate to the directory where you want to clone the repository and type `git clone URL` (replace URL with the link in the clipboard). Type `cd delt-core` to navigate to the root folder of the package and run `conda install pip` and `pip install .` to install the package. Verify the installation by typing `delt-cli --help` (you should see a list of commands). Download the development version of Cutadapt: `pip install git+https://github.com/marcelm/cutadapt.git` (this command can be ignored once Cutadapt 4.10 is released).
+#### 2. R Environment
+Some analysis features in `delt-core` (like enrichment analysis with `edgeR`) depend on R.
+- **Install R:** Download and install R from the [Comprehensive R Archive Network (CRAN)](https://cran.r-project.org/).
+- **Install R Packages:** Once R is installed, open an R console and run the following commands to install the required packages:
+    ```R
+    # Install tidyverse and GGally from CRAN
+    install.packages(c("tidyverse", "GGally"))
 
+    # Install BiocManager
+    if (!require("BiocManager", quietly = TRUE))
+        install.packages("BiocManager")
 
-## Installation (only for development purposes)
+    # Install edgeR and limma from Bioconductor
+    BiocManager::install(c("edgeR", "limma"))
+    ```
 
-Navigate to the root folder of the package and run the following command:
+### 🧑‍🔬 User Installation
 
+This is the recommended way for most users.
+
+1.  **Create and activate a Conda environment:**
+    ```bash
+    conda create -n del python=3.11 -y
+    conda activate del
+    ```
+    > 💡 Always activate this environment (`conda activate del`) before using `delt-core`.
+
+2.  **Install `delt-core`:**
+    Install the package directly from GitHub using `pip`:
+    ```bash
+    pip install git+https://github.com/DELTechnology/delt-core.git
+    ```
+    > **Note:** The `delt-core` package is under active development. To get the latest version of `cutadapt` required by this package, please run `pip install git+https://github.com/marcelm/cutadapt.git` (this command can be ignored once Cutadapt 4.10 is released).
+
+3.  **Verify Installation:**
+    Check that the CLI is working:
+    ```bash
+    delt-cli --help
+    ```
+    You should see a list of available commands.
+
+### 👩‍💻 Developer Installation
+
+If you want to contribute to the development of `delt-core`, follow these steps.
+
+1.  **Configure SSH for GitHub:**
+    Make sure you have an [SSH key added to your GitHub account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account) to clone the repository.
+
+2.  **Clone the Repository:**
+    ```bash
+    git clone git@github.com:DELTechnology/delt-core.git
+    cd delt-core
+    ```
+
+3.  **Create and activate the Conda environment:**
+    ```bash
+    conda create -n del-dev python=3.11 -y
+    conda activate del-dev
+    ```
+
+4.  **Install in Editable Mode:**
+    Install the package with all development and testing dependencies:
+    ```bash
+    pip install -e ".[dev,test]"
+    ```
+    > 🔧 This "editable" install means that any changes you make to the source code will be immediately reflected when you run the `delt-cli` command.
+
+5.  **(Optional) Install `pigz` for parallel processing:**
+    For faster demultiplexing on macOS, install `pigz` using [Homebrew](https://brew.sh/):
+    ```bash
+    brew install pigz
+    ```
+
+## 🧪 Example Workflow
+
+Here is a typical workflow for using `delt-core`:
+
+1.  **Initialize Configuration:**
+    Create a `config.yaml` file from an Excel library file. This file defines the experiment, selections, and library information.
+    ```bash
+    delt-cli init --excel_path /path/to/library.xlsx
+    ```
+
+2.  **Run Demultiplexing:**
+    Run the entire demultiplexing pipeline based on your configuration. This includes preparing scripts, running `cutadapt`, and processing the results.
+    ```bash
+    delt-cli demultiplex run --config_path /path/to/config.yaml
+    ```
+
+3.  **Define Analysis Groups:**
+    After demultiplexing, define analysis groups by editing your `config.yaml` file. Add an `analyses` section to group selections for comparison. For example:
+    ```yaml
+    analyses:
+      analysis-1:
+        selections:
+          - SEL1 # Typically a protein selection
+          - SEL2 # Another protein selection (replicate)
+          - SEL3 # A no-protein control selection
+    ```
+
+4.  **Calculate Enrichment:**
+    Calculate enrichment for the defined groups using different methods. The `--name` argument must correspond to a group you defined in your `config.yaml`.
+    ```bash
+    # Using simple counts
+    delt-cli analyse enrichment --config_path /path/to/config.yaml --name=analysis-1 --method=counts
+
+    # Using edgeR for more sensitive statistical analysis
+    delt-cli analyse enrichment --config_path /path/to/config.yaml --name=analysis-1 --method=edgeR
+    ```
+
+5.  **Work with the Library:**
+    Enumerate the library, compute properties, and generate representations.
+    ```bash
+    # Enumerate all molecules in the library
+    delt-cli library enumerate --config_path /path/to/config.yaml
+
+    # Compute chemical properties
+    delt-cli library properties --config_path /path/to/config.yaml
+
+    # Generate molecular fingerprints (e.g., Morgan)
+    delt-cli library represent --method=morgan --config_path /path/to/config.yaml
+    ```
+
+6.  **Launch Dashboard:**
+    Explore the results interactively in a web-based dashboard.
+    ```bash
+    delt-cli dashboard \
+    --config_path /path/to/config.yaml \
+    --counts_path /path/to/selections/SELECTION_NAME/counts.txt
+    ```
+
+## 💻 CLI Reference
+
+### `init`
+Initializes a project by creating a `config.yaml` from a standardized Excel file.
 ```bash
-pip install -e ".[dev,test]"
+delt-cli init --excel_path <path/to/library.xlsx>
 ```
 
-Create a `.env` file to store environment configurations, keys and secrets.
-```bash
-touch .env
-```
-These configurations can be accessed using the `python-dotenv` package.
+### `library`
+Commands for library enumeration, and chemical property and representation calculation.
 
+- **`enumerate`**: Generates the full library of molecules from the reaction steps defined in the configuration file.
+  ```bash
+  delt-cli library enumerate --config_path <path/to/config.yaml>
+  ```
+- **`properties`**: Calculates a set of chemical properties for the enumerated library.
+  ```bash
+  delt-cli library properties --config_path <path/to/config.yaml>
+  ```
+- **`represent`**: Generates molecular representations (fingerprints) for the library.
+  ```bash
+  delt-cli library represent --config_path <path/to/config.yaml> --method <METHOD>
+  ```
+  - `<METHOD>` can be `morgan` or `bert`.
 
-## Example workflow
+### `demultiplex`
+Commands for demultiplexing FASTQ files and obtaining read counts.
 
-Initialize the folder structure and move the library, selection, and FASTQ files to the corresponding directories:
-```bash
-delt-cli init
-mv /path/to/input.fastq.gz fastq_files
-mv /path/to/library.xlsx libraries
-mv /path/to/selection.xlsx selections
-```
+- **`run`**: Runs the entire demultiplexing workflow, including running Cutadapt and computing counts.
+  ```bash
+  delt-cli demultiplex run --config_path <path/to/config.yaml>
+  ```
+- **`prepare`**: Prepares the `cutadapt` input files and executable script without running them.
+  ```bash
+  delt-cli demultiplex prepare --config_path <path/to/config.yaml>
+  ```
+- **`process`**: Computes counts from the output of a `cutadapt` run.
+  ```bash
+  delt-cli demultiplex process --config_path <path/to/config.yaml>
+  ```
+- **`report`**: Generates a text report summarizing demultiplexing statistics.
+  ```bash
+  delt-cli demultiplex report --config_path <path/to/config.yaml>
+  ```
+- **`qc`**: Generates quality control plots from the demultiplexing results.
+  ```bash
+  delt-cli demultiplex qc --config_path <path/to/config.yaml>
+  ```
 
-The folder structure should now be organized as follows:
-```bash
-.
-├── fastq_files
-│   └── input.fastq.gz
-├── libraries
-│   └── library.xlsx
-└── selections
-    └── selection.xlsx
-```
+### `analyse`
+Commands for analyzing demultiplexed data, such as performing enrichment analysis.
 
-Compute the SMILES and some chemical properties of a library:
-```bash
-delt-cli compute smiles libraries/library.xlsx
-delt-cli compute properties libraries/smiles/library_smiles.txt.gz
-delt-cli compute plot libraries/properties/properties_L1.txt.gz
-```
+- **`enrichment`**: Performs enrichment analysis on an analysis group defined in the configuration file.
+  ```bash
+  delt-cli analyse enrichment --config_path <path/to/config.yaml> --name <group_name> --method <METHOD>
+  ```
+  - Analysis groups must be defined under the `analyses` key in your `config.yaml`.
+  - `<group_name>` refers to a key under the `analyses` section.
+  - `<METHOD>` can be `counts` or `edgeR`.
 
-Initialize the configuration file and demultiplex the FASTQ file (adjust the configuration file manually if needed):
-```bash
-delt-cli demultiplex init -f fastq_files/input.fastq.gz -l libraries/library.xlsx -s selections/selection.xlsx
-delt-cli demultiplex run experiments/default-*/config.yml
-```
+### `dashboard`
+Launches an interactive dashboard for data visualization.
 
-Report and plot the results of the demultiplexing:
-```bash
-delt-cli qc report experiments/default-*
-delt-cli qc plot experiments/default-*
-```
-
-Compare a set of target selections (e.g., ID 1-3) to a set of control selections (e.g., ID 4-6):
-```bash
-delt-cli normalize run experiments/default-*/config.yml '1 2 3' '4 5 6'
-```
-
-
-## Initialization
-
-Initialize folder structure:
-```bash
-delt-cli init
-```
-
-
-## Computation
-
-Compute SMILES of a library:
-```bash
-delt-cli compute smiles library1.xlsx
-```
-
-Compute SMILES of a hybridized library (the order of the libraries must match the final sequence in the 5'-to-3' direction, see templates/README.txt):
-```bash
-delt-cli compute smiles library1.xlsx library2.xlsx
-```
-
-Merge two library files into one Excel file (required for the demultiplexing of a hybridized library):
-```bash
-delt-cli compute merge library1.xlsx library2.xlsx
-```
-
-Compute chemical properties of a library:
-```bash
-delt-cli compute properties smiles/library1_smiles.txt.gz
-```
-
-Plot chemical properties of a library:
-```bash
-delt-cli compute plot properties/properties_L1.txt.gz
-```
-
-
-## Demultiplexing
-
-Initialize folder structure for demultiplexing:
-```bash
-delt-cli demultiplex init
-```
-
-Run demultiplexing:
-```bash
-delt-cli demultiplex run experiments/default-*/config.yml
-```
-
-Create codon lists for the library specified in the configuration file:
-```bash
-delt-cli demultiplex create-lists experiments/default-*/config.yml
-```
-
-Create input files for Cutadapt:
-```bash
-delt-cli demultiplex create-cutadapt-input experiments/default-*/config.yml
-```
-
-Run bash script:
-```bash
-bash experiments/default-*/cutadapt_input_files/demultiplex.sh
-```
-
-Compute count tables for the final reads:
-```bash
-delt-cli demultiplex compute-counts experiments/default-*/config.yml experiments/default-*/cutadapt_output_files/reads_with_adapters.gz output_dir
-```
-
-Convert old structure file to new configuration file:
-```bash
-delt-cli demultiplex convert structure.txt
-```
-
-
-## Quality control
-
-Plot codon hits:
-```bash
-delt-cli qc plot experiments/default-*
-```
-
-Print report:
-```bash
-delt-cli qc report experiments/default-*
-```
-
-
-## Normalization
-
-Compare a set of target selections (e.g., ID 1-3) to a set of control selections (e.g., ID 4-6):
-```bash
-delt-cli normalize run experiments/default-*/config.yml '1 2 3' '4 5 6'
-```
-
-
-## Simulation
-
-Create configuration file for simulation:
-```bash
-delt-cli simulate init
-```
-
-Generate reads (with or without erros):
-```bash
-delt-cli simulate run experiments/default-*/config.yml
-```
-
-The default initialization of the simulation generates a new library and a selection template that contain random codons. Alternatively, one can pass existing files using the following commands:
-```bash
-delt-cli simulate init -l libraries/library.xlsx -s selections/selection.xlsx -f fastq_files/input.fastq.gz -o fastq_files/input.fastq.gz
-delt-cli simulate run experiments/default-*/config.yml
-```
+- **`dashboard`**: Starts a web-based dashboard to interactively explore counts data for a given selection.
+  ```bash
+  delt-cli dashboard --config_path <path/to/config.yaml> --counts_path <path/to/counts.txt>
+  ```
