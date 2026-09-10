@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageFont, ImageOps
+from PIL import Image, ImageChops, ImageDraw, ImageFont, ImageOps
 
 
 BG = "white"
@@ -91,7 +91,7 @@ def _get_font(size: int, bold: bool = False) -> ImageFont.FreeTypeFont | ImageFo
 
 
 SUB = _get_font(66, bold=True)
-SECTION = _get_font(64, bold=True)
+SECTION = _get_font(50, bold=True)
 LABEL = _get_font(50, bold=True)
 LABEL_PLAIN = _get_font(50, bold=False)
 SMALL = _get_font(44)
@@ -99,6 +99,26 @@ SMALL = _get_font(44)
 
 def contain(image: Image.Image, size: tuple[int, int]) -> Image.Image:
     return ImageOps.contain(image.convert("RGB"), size, method=Image.Resampling.LANCZOS)
+
+
+def trim_white_margins(image: Image.Image, padding_fraction: float = 0.08) -> Image.Image:
+    """Crop unused white canvas while retaining a small content margin."""
+    rgb = image.convert("RGB")
+    difference = ImageChops.difference(rgb, Image.new("RGB", rgb.size, BG)).convert("L")
+    content_mask = difference.point(lambda value: 255 if value > 8 else 0)
+    bbox = content_mask.getbbox()
+    if bbox is None:
+        return rgb
+
+    left, top, right, bottom = bbox
+    padding = max(12, round(max(right - left, bottom - top) * padding_fraction))
+    expanded_bbox = (
+        max(0, left - padding),
+        max(0, top - padding),
+        min(rgb.width, right + padding),
+        min(rgb.height, bottom + padding),
+    )
+    return rgb.crop(expanded_bbox)
 
 
 def require_paths(paths: list[Path]) -> list[Path]:
@@ -136,8 +156,11 @@ def panel(
     title: str | None = None,
     subtitle: str | None = None,
     title_font: ImageFont.FreeTypeFont | ImageFont.ImageFont = LABEL,
+    trim_content: bool = False,
 ) -> Image.Image:
     image = Image.open(image_path)
+    if trim_content:
+        image = trim_white_margins(image)
     canvas = Image.new("RGB", size, BG)
     draw = ImageDraw.Draw(canvas)
     draw.rounded_rectangle(
@@ -164,11 +187,18 @@ def panel(
     return canvas
 
 
-def build_enumeration_composite(visualization_root: Path, output_path: Path) -> None:
-    reaction_graph = visualization_root / "reaction_graph.png"
-    reaction_abf1 = visualization_root / "reactions" / "ABF1.png"
-    reaction_sr = visualization_root / "reactions" / "SR.png"
-    reaction_aba2 = visualization_root / "reactions" / "ABF2.png"
+def build_enumeration_composite(
+    visualization_root: Path,
+    output_path: Path,
+    *,
+    reaction_graph_path: Path | None = None,
+    reaction_root: Path | None = None,
+) -> None:
+    reaction_graph = reaction_graph_path or visualization_root / "reaction_graph.png"
+    reaction_root = reaction_root or visualization_root / "reactions"
+    reaction_abf1 = reaction_root / "ABF1.png"
+    reaction_sr = reaction_root / "SR.png"
+    reaction_aba2 = reaction_root / "ABF2.png"
 
     b0_examples = first_building_blocks(visualization_root / "building_blocks" / "B0", 3)
     b1_examples = first_building_blocks(visualization_root / "building_blocks" / "B1", 3)
@@ -184,9 +214,18 @@ def build_enumeration_composite(visualization_root: Path, output_path: Path) -> 
     )
     figure.paste(graph_panel, (100, 100))
 
-    figure.paste(panel(reaction_abf1, (1250, 400), title="Reaction template ABF1"), (2230, 100))
-    figure.paste(panel(reaction_sr, (1250, 400), title="Reaction template SR"), (2230, 520))
-    figure.paste(panel(reaction_aba2, (1250, 400), title="Reaction template ABF2"), (2230, 940))
+    # Match the combined reaction-template height to the 1,420 px reaction
+    # graph panel while retaining 20 px gaps between templates.
+    reaction_panel_height = 460
+    for y, image_path, title in [
+        (100, reaction_abf1, "Reaction template ABF1"),
+        (580, reaction_sr, "Reaction template SR"),
+        (1060, reaction_aba2, "Reaction template ABF2"),
+    ]:
+        figure.paste(
+            panel(image_path, (1250, reaction_panel_height), title=title, trim_content=True),
+            (2230, y),
+        )
 
     section_y = 1560
     for x, title in [
@@ -208,6 +247,7 @@ def build_enumeration_composite(visualization_root: Path, output_path: Path) -> 
             (500, 540),
             title=f"Code {building_block_path.stem}",
             title_font=LABEL_PLAIN,
+            trim_content=True,
         )
         figure.paste(block_panel, (140 + i * 520, 1680))
 
@@ -217,6 +257,7 @@ def build_enumeration_composite(visualization_root: Path, output_path: Path) -> 
             (500, 540),
             title=f"Code {building_block_path.stem}",
             title_font=LABEL_PLAIN,
+            trim_content=True,
         )
         figure.paste(block_panel, (1880 + i * 520, 1680))
 
@@ -267,10 +308,12 @@ def build_properties_and_examples_composite(
     positions = [
         (1920, 110),
         (2720, 110),
-        (1920, 860),
-        (2720, 860),
+        (1920, 935),
+        (2720, 935),
     ]
-    size = (730, 830)
+    # Use the same 70 px gap between rows as between columns. Both rows
+    # remain aligned with the 1,580 px-high molecular-property panel.
+    size = (730, 755)
     for i, (image_path, (x, y)) in enumerate(zip(library_examples, positions), start=1):
         example_panel = panel(image_path, size, title=f"Example {i}", subtitle=image_path.stem)
         figure.paste(example_panel, (x, y))
